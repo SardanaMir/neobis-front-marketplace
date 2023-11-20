@@ -7,11 +7,13 @@ import Login from './Login';
 import Register from './Register';
 import Password from './Password';
 import Profile from './Profile';
+import MyStore from './MyStore'
+import Navbar from './Navbar';
 
 function App() {
   return (
     <>
-    <Profile/>
+    <Navbar/>
     {/* <Login/> */}
     </>
 
