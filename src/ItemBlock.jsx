@@ -1,8 +1,10 @@
 function ItemBlock(){
+
     function showCard(e){
         e.preventDefault();
         setSuccess(true);
     }
+    
     return(
         <div onClick={showCard} className='p-10'>
             <div className='w-40 h-48 bg-white rounded-xl flex flex-col justify-center p-4 cursor-pointer'>
