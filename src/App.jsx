@@ -1,6 +1,5 @@
 import './App.css'
-import {useState, useRef, useEffect} from 'react';
-import {useForm} from 'react-hook-form';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 import './App.css';
 import Login from './Login';
@@ -10,14 +9,20 @@ import Profile from './Profile';
 import MyStore from './MyStore'
 import Navbar from './Navbar';
 import MainScreen from './MainScreen';
-import AddItem from './actions/AddItem';
 import ItemBlock from './ItemBlock';
 
 function App() {
   return (
     <>
-    <ItemBlock/>
-    {/* <Login/> */}
+      <Router>
+        <Routes>
+          <Route path='/login' element={<Login/>}/>
+          <Route path='/register' element={<Register/>}/>
+          <Route path='/main' element={<MainScreen/>}/>
+          <Route path='/profile' element={<Profile/>}/>
+          <Route path='/mystore' element={<MyStore/>}/>
+        </Routes>
+      </Router>
     </>
 
   )

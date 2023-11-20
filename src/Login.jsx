@@ -2,6 +2,7 @@ import {useState, useRef, useEffect} from 'react';
 import {useForm} from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import {saveUserData } from './store/userSlice';
+import {Link} from 'react-router-dom';
 
 function Login() {
   const userRef = useRef();
@@ -108,7 +109,7 @@ function Login() {
             </div>
             <button type='submit' className='loginBtn w-80 h-11 bg-indigo-600	text-white rounded-full flex justify-center	items-center mt-20' disabled={!isValid}>Войти</button>
           </form>
-          <button className='w-80 bg-white text-indigo-600 block mx-auto my-0 mt-44'>Зарегистрироваться</button>
+          <Link to={'/register'} className='w-80 bg-white text-indigo-600 block mx-auto my-0 mt-44'>Зарегистрироваться</Link>
         </div>
       </section>
       )}

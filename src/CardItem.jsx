@@ -15,7 +15,7 @@ function CardItem(){
                 It features a unique design, with a chunky silhouette and a blush colorway. The shoe has a mix of suede, mesh and leather, and it's considered a highly sought-after item among shoe enthusiasts.
                 </p>
             </div>
-        </div>  
+        </div>
     )
 
 }

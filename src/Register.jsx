@@ -1,5 +1,6 @@
 import {useState, useRef, useEffect} from 'react';
 import {useForm} from 'react-hook-form';
+import {Link} from 'react-router-dom';
 
 function Register() {
   const userRef = useRef();
@@ -71,9 +72,9 @@ function Register() {
           <div className='col-start-2'>
             <div className='flex pt-1.5	gap-x-1'>
               {/* link */}
-              <div className='w-11 h-7 bg-gray-300 rounded-3xl flex justify-center cursor-pointer '>
+              <Link to='/login' className='w-11 h-7 bg-gray-300 rounded-3xl flex justify-center cursor-pointer '>
                 <img src="src/assets/icons/arrow-left.svg" alt="" />
-              </div>
+              </Link>
 
               <p className='text-base	font-normal'>Назад</p>
             </div>

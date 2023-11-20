@@ -2,22 +2,25 @@ import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import userReducer from './store';
 import Navbar from './Navbar';
+import {Link} from 'react-router-dom';
 
 function Profile(props) {
     const [username, setUsername] = useState('')
     const [success, setSuccess] = useState('');
 
   return (
-    <>
+
+    <div className='flex h-screen'>
+        <Navbar/>
         <div className='bg-gray-100 w-8/12'>
             <div className='max-w-2xl block my-0 mx-auto'>
-                <div className='flex pt-1.5	gap-x-1	'>
+                <Link to='/main' className='flex pt-1.5	gap-x-1	'>
                     {/* link */}
                     <div className='w-11 h-7 bg-gray-300 rounded-3xl flex justify-center cursor-pointer'>
                     <img src="src/assets/icons/arrow-left.svg" alt="" />
                     </div>
                     <p className='text-base	font-normal'>Назад</p>
-                </div>
+                </Link>
                 <h2 className='text-lg font-bold text-center'>Регистрация</h2>
                 <div className='flex flex-col items-center'>
                     <div className='w-16 h-16 flex bg-indigo-600 rounded-full justify-center items-center mt-24'>
@@ -41,7 +44,7 @@ function Profile(props) {
                 </form>
             </div>
         </div>
-    </>
+    </div>
   )
 }
 
