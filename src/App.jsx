@@ -11,11 +11,12 @@ import MyStore from './MyStore'
 import Navbar from './Navbar';
 import MainScreen from './MainScreen';
 import AddItem from './actions/AddItem';
+import ItemBlock from './ItemBlock';
 
 function App() {
   return (
     <>
-    <AddItem/>
+    <ItemBlock/>
     {/* <Login/> */}
     </>
 
