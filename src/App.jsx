@@ -9,11 +9,13 @@ import Password from './Password';
 import Profile from './Profile';
 import MyStore from './MyStore'
 import Navbar from './Navbar';
+import MainScreen from './MainScreen';
+import AddItem from './actions/AddItem';
 
 function App() {
   return (
     <>
-    <Navbar/>
+    <AddItem/>
     {/* <Login/> */}
     </>
 
