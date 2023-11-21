@@ -48,7 +48,7 @@ function MainScreen() {
             likedItemLS = {}
             likedItemLS['id'] = id;
             likedItemLS['title'] = title;
-            likedItemLS['url'] = url;
+            likedItemLS['imgURL'] = url;
             likedItemLS['price'] = price;
             likedItemLS['status'] = true;
             likedItemLS['index'] = index;

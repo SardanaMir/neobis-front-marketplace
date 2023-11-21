@@ -9,6 +9,7 @@ import mystore from './mystore.json'
 function FavoriteItems() {
     const [success, setSuccess] = useState('');
     const [isModalOpen, setisModalOpen] = useState(false);
+    const [likedItems, setLikedItems] = useState([]);
 
     function showCard(e){
         e.preventDefault();
@@ -17,6 +18,12 @@ function FavoriteItems() {
     const closeProductCard = () =>{
         setisModalOpen(false);
     }
+    
+    useEffect(() => {
+        const data = JSON.parse(localStorage.getItem('data')) || {};
+        setLikedItems(data);
+        // console.log(data)
+    },[]);
   return (
     <>
     <div className={isModalOpen ? 'fixed w-full	h-full top-0 bg-black bg-opacity-50' : 'hidden'} onClick={() => closeProductCard()}>
@@ -45,14 +52,14 @@ function FavoriteItems() {
             </div>
             {/* карточка товара */}
             <div className='p-10 flex flex-wrap justify-center gap-4'>
-                {mystore.map(item =>(
+                {likedItems.map(item =>(
                     <div onClick={()=> setisModalOpen(true)} key={item.id} id={item.id} className='w-40 h-50 bg-white rounded-xl flex flex-col justify-center p-4 cursor-pointer'>
                         <img src={item.imgURL} alt={item.title} />
                         <p className='text-sm font-semibold	'>{item.title}</p>
                         <p className='text-sm text-indigo-600 font-semibold	'>{item.price}$</p>
                         <div className='flex justify-between'>
                             <div className='flex items-center'>
-                                <img src="src/assets/icons/heart-red.svg"/>
+                                <img src={item[item.id] ? "src/assets/icons/heart-white.svg" : "src/assets/icons/heart-red.svg"}/>
                                 <p className='text-xs text-gray-300'>100</p>
                             </div>
                             <img src="src/assets/icons/more-vertical.svg"/>
