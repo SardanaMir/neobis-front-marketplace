@@ -18,11 +18,12 @@ function App() {
         <Routes>
           <Route path='/login' element={<Login/>}/>
           <Route path='/register' element={<Register/>}/>
-          <Route path='/main' element={<MainScreen/>}/>
+          <Route path='/main' element={<MainScreen/>} />
           <Route path='/profile' element={<Profile/>}/>
           <Route path='/mystore' element={<MyStore/>}/>
         </Routes>
       </Router>
+
     </>
 
   )
