@@ -5,10 +5,10 @@ import { useDispatch } from 'react-redux';
 import {Link} from 'react-router-dom';
 import Navbar from './Navbar';
 import mystore from './mystore.json'
-function MyStore() {
+
+function FavoriteItems() {
     const [success, setSuccess] = useState('');
     const [isModalOpen, setisModalOpen] = useState(false);
-    const [isLiked, setIsLiked] = useState(false);
 
     function showCard(e){
         e.preventDefault();
@@ -16,11 +16,6 @@ function MyStore() {
     }
     const closeProductCard = () =>{
         setisModalOpen(false);
-    }
-    const likeItem = (e) =>{
-        e.preventDefault()
-        console.log(e)
-        setIsLiked(true)
     }
   return (
     <>
@@ -46,18 +41,18 @@ function MyStore() {
                     </div>
                     <p className='text-base	font-normal'>Назад</p>
                 </Link>
-                <h2 className='text-lg font-bold text-center'>Мои товары</h2>
+                <h2 className='text-lg font-bold text-center'>Понравившиеся</h2>
             </div>
             {/* карточка товара */}
             <div className='p-10 flex flex-wrap justify-center gap-4'>
                 {mystore.map(item =>(
-                    <div key={item.id} id={item.id} className='w-40 h-50 bg-white rounded-xl flex flex-col justify-center p-4 cursor-pointer'>
-                        <img onClick={()=> setisModalOpen(true)} src={item.imgURL} alt={item.title} />
+                    <div onClick={()=> setisModalOpen(true)} key={item.id} id={item.id} className='w-40 h-50 bg-white rounded-xl flex flex-col justify-center p-4 cursor-pointer'>
+                        <img src={item.imgURL} alt={item.title} />
                         <p className='text-sm font-semibold	'>{item.title}</p>
                         <p className='text-sm text-indigo-600 font-semibold	'>{item.price}$</p>
                         <div className='flex justify-between'>
                             <div className='flex items-center'>
-                                <img onClick={(e) => likeItem(e)} src={isLiked ?"src/assets/icons/heart-red.svg" : "src/assets/icons/heart-white.svg"}/>
+                                <img src="src/assets/icons/heart-red.svg"/>
                                 <p className='text-xs text-gray-300'>100</p>
                             </div>
                             <img src="src/assets/icons/more-vertical.svg"/>
@@ -74,6 +69,6 @@ function MyStore() {
   )
 }
 
-export default MyStore
+export default FavoriteItems
 
 

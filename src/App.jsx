@@ -10,6 +10,7 @@ import MyStore from './MyStore'
 import Navbar from './Navbar';
 import MainScreen from './MainScreen';
 import ItemBlock from './ItemBlock';
+import FavoriteItems from './FavoriteItems';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path='/main' element={<MainScreen/>} />
           <Route path='/profile' element={<Profile/>}/>
           <Route path='/mystore' element={<MyStore/>}/>
+          <Route path='/favorite' element={<FavoriteItems/>}/>
         </Routes>
       </Router>
 

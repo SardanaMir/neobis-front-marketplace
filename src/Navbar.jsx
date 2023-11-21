@@ -43,13 +43,13 @@ function Navbar() {
                     <p className='text-lg font-normal'>sardana</p>
                 </div>
             </Link>
-            <div className='flex gap-x-3 items-center mt-11 justify-between cursor-pointer'>
+            <Link to='/favorite' className='flex gap-x-3 items-center mt-11 justify-between cursor-pointer'>
                 <div className='flex gap-x-3 items-center'>
                     <img src="src/assets/icons/heart.svg" alt="" />
                     <p>Понравившиеся</p>
                 </div>
                 <img src="src/assets/icons/direction-right.svg" alt="" />
-            </div>
+            </Link>
             <Link to='/mystore' className='flex gap-x-3 items-center mt-5 justify-between cursor-pointer'>
                 <div className='flex gap-x-3 items-center'>
                     <div className='w-8 h-8 bg-indigo-600 rounded-md flex items-center justify-center'>
