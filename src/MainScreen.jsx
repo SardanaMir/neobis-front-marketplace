@@ -10,6 +10,7 @@ function MainScreen() {
     const [isModalOpen, setisModalOpen] = useState(false);
     const [item, setItem] = useState('');
     const dispatch = useDispatch();
+    const [likedItems, setLikedItems] = useState(Array(mystore.length).fill(false));
 
     // const showProductCard = (id) => dispatch(handleProductCard(id))        
     function showProductCard(id){
@@ -28,6 +29,32 @@ function MainScreen() {
 
     const closeProductCard = () =>{
         setisModalOpen(false);
+    }
+
+    let likedItemLS = {};
+    let likedItemsArr = JSON.parse(localStorage.getItem('data')) || [];
+
+    const likeItem = (index, id, title, url, price) =>{
+        const updatedLikedItems = [...likedItems];
+        updatedLikedItems[index] = !updatedLikedItems[index];
+        setLikedItems(updatedLikedItems);
+
+        let a = likedItemsArr.every(item =>{
+            if(item.id !== id){
+                return true
+            }
+        }) 
+        if (a === true){
+            likedItemLS = {}
+            likedItemLS['id'] = id;
+            likedItemLS['title'] = title;
+            likedItemLS['url'] = url;
+            likedItemLS['price'] = price;
+            likedItemLS['status'] = true;
+            likedItemLS['index'] = index;
+        }
+        likedItemsArr.push(likedItemLS);
+        localStorage.setItem('data', JSON.stringify(likedItemsArr));
     }
     
   return (
@@ -66,13 +93,13 @@ function MainScreen() {
 
             <div className='p-10 flex flex-wrap justify-center gap-4'>
                 {mystore.map((item, index) =>(
-                <div onClick={()=> (showProductCard(item.id), setisModalOpen(true))}  key={item.id} id={item.id} className='w-40 h-50 bg-white rounded-xl flex flex-col justify-center p-4 cursor-pointer'>
-                    <img src={item.imgURL} alt="" />
+                <div key={item.id} id={item.id} className='w-40 h-50 bg-white rounded-xl flex flex-col justify-center p-4 cursor-pointer'>
+                    <img onClick={()=> (showProductCard(item.id), setisModalOpen(true))} src={item.imgURL} alt="" />
                     <p className='text-sm font-semibold'>{item.title}</p>
                     <p className='text-sm text-indigo-600 font-semibold	'>{item.price}$</p>
                     <div className='flex justify-between'>
                         <div className='flex items-center'>
-                            <img src="src/assets/icons/heart-red.svg"/>
+                            <img onClick={() => likeItem(index, item.id, item.title, item.imgURL, item.price)} data-action='like' src={likedItems[index] ?"src/assets/icons/heart-red.svg" : "src/assets/icons/heart-white.svg"}/>
                             <p className='text-xs text-gray-300'>100</p>
                         </div>
                     </div>

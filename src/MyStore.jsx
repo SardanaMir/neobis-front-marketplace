@@ -8,7 +8,7 @@ import mystore from './mystore.json'
 function MyStore() {
     const [success, setSuccess] = useState('');
     const [isModalOpen, setisModalOpen] = useState(false);
-    const [isLiked, setIsLiked] = useState(false);
+    const [likedItems, setLikedItems] = useState(Array(mystore.length).fill(false));
 
     function showCard(e){
         e.preventDefault();
@@ -17,10 +17,11 @@ function MyStore() {
     const closeProductCard = () =>{
         setisModalOpen(false);
     }
-    const likeItem = (e) =>{
-        e.preventDefault()
-        console.log(e)
-        setIsLiked(true)
+
+    const likeItem = (index) =>{
+        const updatedLikedItems = [...likedItems];
+        updatedLikedItems[index] = !updatedLikedItems[index];
+        setLikedItems(updatedLikedItems);
     }
   return (
     <>
@@ -50,14 +51,14 @@ function MyStore() {
             </div>
             {/* карточка товара */}
             <div className='p-10 flex flex-wrap justify-center gap-4'>
-                {mystore.map(item =>(
+                {mystore.map((item, index) =>(
                     <div key={item.id} id={item.id} className='w-40 h-50 bg-white rounded-xl flex flex-col justify-center p-4 cursor-pointer'>
                         <img onClick={()=> setisModalOpen(true)} src={item.imgURL} alt={item.title} />
                         <p className='text-sm font-semibold	'>{item.title}</p>
                         <p className='text-sm text-indigo-600 font-semibold	'>{item.price}$</p>
                         <div className='flex justify-between'>
                             <div className='flex items-center'>
-                                <img onClick={(e) => likeItem(e)} src={isLiked ?"src/assets/icons/heart-red.svg" : "src/assets/icons/heart-white.svg"}/>
+                                <img onClick={() => likeItem(index)} data-action='like' src={likedItems[index] ?"src/assets/icons/heart-red.svg" : "src/assets/icons/heart-white.svg"}/>
                                 <p className='text-xs text-gray-300'>100</p>
                             </div>
                             <img src="src/assets/icons/more-vertical.svg"/>
