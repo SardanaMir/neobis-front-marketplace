@@ -1,6 +1,8 @@
 import {Link} from 'react-router-dom';
+import React, {useState} from 'react';
 
 function MainScreenHeader(){
+    const [open, setOpen] = useState(false)
     return (
         <header className="flex justify-between items-center">
             <div className="flex items-center gap-2.5">
@@ -14,11 +16,18 @@ function MainScreenHeader(){
                         <p className='text-lg font-semibold'>Сардана</p>
                         <p className='text-lg font-normal'>sardana</p>
                     </div>
-                    <Link to='/profile' className='w-16 h-16 flex bg-indigo-600 rounded-full justify-center items-center'>
+                    <div onClick={()=>setOpen(!open)} className='w-16 h-16 flex bg-indigo-600 rounded-full justify-center items-center relative'>
                         <img src="src/assets/icons/user.svg" alt="user" />
-                    </Link>
+                    </div>
                 </div>
             </div>
+            {open && (
+                <div className='absolute w-50 h-50 bg-white rounded-xl p-6 flex flex-col gap-5 right-0 mt-56'>
+                    <Link to='/profile' className='text-sm text-indigo-600 font-semibold cursor-pointer'>Профиль</Link>
+                    <Link to='/favorite' className='text-sm text-indigo-600 font-semibold cursor-pointer'>Понравившиеся</Link>
+                    <Link to='/mystore' className='text-sm text-indigo-600 font-semibold cursor-pointer'>Мои товары</Link>
+                </div>
+            )}
         </header>
     )
 }
