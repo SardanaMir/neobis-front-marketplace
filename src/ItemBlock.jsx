@@ -1,17 +1,40 @@
-function ItemBlock(){
+import { useEffect, useState } from 'react';
+import mystore from './mystore.json';
 
-    function showCard(e){
-        e.preventDefault();
-        setSuccess(true);
+function ItemBlock(props){
+    const [likedItems, setLikedItems] = useState(Array(mystore.length).fill(false));
+
+
+    let likedItemsArr = JSON.parse(localStorage.getItem('data')) || [];
+
+    const likeItem = (index, item) =>{
+        const updatedLikedItems = [...likedItems];
+        updatedLikedItems[index] = !updatedLikedItems[index];
+        setLikedItems(updatedLikedItems);
+
+        let a = likedItemsArr.every(prod =>{
+            if(prod.id !== item.id){
+                return true
+            }
+        }) 
+        if (a === true){
+            likedItemsArr.push(item);
+        }
+        localStorage.setItem('data', JSON.stringify(likedItemsArr));
     }
     
     return(
-        <div onClick={showCard} className='p-10'>
-            <div className='w-40 h-48 bg-white rounded-xl flex flex-col justify-center p-4 cursor-pointer'>
-                <img src="src/assets/img/image 2.jpg" alt="" />
-                <p className='text-sm font-semibold	'>BMW M4 Coupe: A Two-Door</p>
-                <p className='text-sm text-indigo-600 font-semibold	' >20 000$</p>
-                <div>Like</div>
+        <div className="flex flex-col justify-between h-full" id={props.item.id}>
+            <img src={props.item.imgURL} alt={props.item.title} />
+            <div>
+                <p className='text-sm font-semibold'>{props.item.title}</p>
+                <p className='text-sm text-indigo-600 font-semibold'>{props.item.price}$</p>
+                <div className='flex justify-between'>
+                    <div className='flex items-center'>
+                        <img onClick={() => likeItem(props.index, props.item)} src={likedItems[props.index] ?"src/assets/icons/heart-red.svg" : "src/assets/icons/heart-white.svg"}/>
+                        <p className='text-xs text-gray-300'>100</p>
+                    </div>
+                </div>
             </div>
         </div>
     )

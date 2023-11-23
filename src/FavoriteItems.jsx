@@ -1,14 +1,10 @@
 import {useState, useRef, useEffect} from 'react';
-import {useForm} from 'react-hook-form';
-import {useSelector} from 'react-redux'
-import { useDispatch } from 'react-redux';
 import {Link} from 'react-router-dom';
 import Navbar from './Navbar';
-import mystore from './mystore.json'
 import ShowCardItem from './ShowCardItem';
+import ItemBlock from './ItemBlock';
 
 function FavoriteItems() {
-    const [success, setSuccess] = useState('');
     const [isModalOpen, setisModalOpen] = useState(false);
     const [likedItems, setLikedItems] = useState([]);
     const [productCard, setProductCard] = useState('');
@@ -24,8 +20,8 @@ function FavoriteItems() {
     useEffect(() => {
         const data = JSON.parse(localStorage.getItem('data')) || {};
         setLikedItems(data);
-        // console.log(data)
     },[]);
+
   return (
     <>
     <div className={isModalOpen ? 'fixed w-full	h-full top-0 bg-black bg-opacity-50' : 'hidden'} onClick={() => closeProductCard()}>
@@ -47,20 +43,11 @@ function FavoriteItems() {
             {/* карточка товара */}
             <div className='p-10 flex flex-wrap justify-center gap-4'>
                 {likedItems.map(item =>(
-                    <div onClick={()=> (showProductCard(item), setisModalOpen(true))} key={item.id} id={item.id} className='w-40 h-50 bg-white rounded-xl flex flex-col justify-center p-4 cursor-pointer'>
-                        <img src={item.imgURL} alt={item.title} />
-                        <p className='text-sm font-semibold	'>{item.title}</p>
-                        <p className='text-sm text-indigo-600 font-semibold	'>{item.price}$</p>
-                        <div className='flex justify-between'>
-                            <div className='flex items-center'>
-                                <img src={item[item.id] ? "src/assets/icons/heart-white.svg" : "src/assets/icons/heart-red.svg"}/>
-                                <p className='text-xs text-gray-300'>100</p>
-                            </div>
-                            <img src="src/assets/icons/more-vertical.svg"/>
-                        </div>
+                    <div key={item.id} onClick={()=> (showProductCard(item), setisModalOpen(true))}
+                    className='w-40 h-50 bg-white rounded-xl p-6 cursor-pointer'>
+                        <ItemBlock item={item} />
                     </div>
                 ))}
-
             </div>
         </div>
     </div>
