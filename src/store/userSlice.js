@@ -1,20 +1,25 @@
 import {createSlice} from '@reduxjs/toolkit';
 
+const initialState = {
+    username: null,
+    token: null
+}
+
 const userSlice = createSlice({
     name: 'user',
-    initialState: {
-        user: []
-    },
+    initialState,
     reducers: {
-        saveUserData(state, action){
-            state.user.push({
-                username : action.payload.username,
-                password : action.payload.password
-            })
+        setUser(state, action){
+            state.username = action.payload.username;
+            state.token = action.payload.token;
+        },
+        removeUser(state) {
+            state.username = null;
+            state.token = null;
         },
     },
 
 });
 
-export const {saveUserData} = userSlice.actions;
+export const {setUser, removeUser} = userSlice.actions;
 export default userSlice.reducer;

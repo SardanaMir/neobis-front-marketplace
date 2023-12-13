@@ -1,16 +1,19 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useState } from 'react';
-import userReducer from './store';
-import Profile from './Profile';
-import MyStore from './MyStore';
-import {Link} from 'react-router-dom';
+import userReducer from '../store';
+import Profile from '../pages/Profile';
+import MyStore from '../pages/MyStore';
+import {Link, useNavigate} from 'react-router-dom';
+import { removeUser } from '../store/userSlice';
 
 
 function Navbar() {
     const [profile, setProfile] = useState(false);
     const [mystore, setMystore] = useState(false);
     const [isLogout, setIsLogot] = useState(false);
-
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const {username} = useSelector(state => state.user);
 
     const handleProfile = (e) =>{
         e.preventDefault();
@@ -21,6 +24,11 @@ function Navbar() {
         e.preventDefault();
         setMystore(true)
     }
+    const handleLogout = () => {
+        dispatch(removeUser())
+        navigate('/login')
+        localStorage.clear()
+    }
 
   return (
     <>
@@ -28,7 +36,7 @@ function Navbar() {
             <div className='w-96 min-h-fit bg-white p-5 rounded-3xl flex flex-col items-center top-2/4 left-2/4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
                 <img src="src/assets/icons/logout-1.svg" alt="logout" />
                 <p className='text-base font-semibold text-center mt-3'>Вы действительно хотите выйти с приложения?</p>
-                <button className='w-80 h-11 bg-indigo-600 text-white rounded-2xl focus:outline-none mt-5'>Выйти</button>
+                <button onClick={handleLogout} className='w-80 h-11 bg-indigo-600 text-white rounded-2xl focus:outline-none mt-5'>Выйти</button>
                 <button onClick={() => setIsLogot(false)} className='w-80 bg-white text-indigo-600 block mx-auto my-0 mt-3'>Отмена</button>
             </div>
         </div>
@@ -40,7 +48,7 @@ function Navbar() {
                 </div>
                 <div>
                     <p className='text-lg font-semibold'>Сардана</p>
-                    <p className='text-lg font-normal'>sardana</p>
+                    <p className='text-lg font-normal'>{username}</p>
                 </div>
             </Link>
             <Link to='/favorite' className='flex gap-x-3 items-center mt-11 justify-between cursor-pointer'>
