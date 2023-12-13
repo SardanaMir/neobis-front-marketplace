@@ -6,7 +6,8 @@
         "details": "It features a custom AMD RDNA 2 GPU, lightning-fast SSD, haptic feedback controllers, and support for 4K gaming.",
         "imgURL": "https://m.media-amazon.com/images/I/51QKZfyi-dL._AC_UL480_FMwebp_QL65_.jpg",
         "id" : "item01",
-        "currency" : "$"
+        "currency" : "$",
+        "username":"sardana"
       },
       {
         "title": "Apple AirPods Pro",
@@ -33,7 +34,8 @@
         "details": "It features an LCD screen that shows current performance, including selected power mode, remaining run time, filter maintenance reminders, and blockage reports.",
         "imgURL": "https://m.media-amazon.com/images/I/51hmwtzT39L._AC_UL480_FMwebp_QL65_.jpg",
         "id" : "item04",
-        "currency" : "$"
+        "currency" : "$",
+        "username":"sardana"
       },
       {
         "title": "Canon EOS R5 Camera",
@@ -69,7 +71,9 @@
         "details": "It offers Dual Noise Sensor and HD Noise Cancelling Processor QN1, speak-to-chat technology, and 30 hours of battery life.",
         "imgURL": "https://m.media-amazon.com/images/I/7160xoKFtgL._AC_UL480_FMwebp_QL65_.jpg",
         "id" : "item08",
-        "currency" : "$"
+        "currency" : "$",
+        "username":"sardana"
+
       },
       {
         "title": "Weber Spirit II E-310 Gas Grill",
@@ -87,6 +91,8 @@
         "details": "It features NVIDIA G-SYNC compatibility, Dolby Vision IQ & Dolby Atmos, and a9 Gen 3 AI Processor.",
         "imgURL": "https://m.media-amazon.com/images/I/81NZ7xnD2DL._AC_UL480_FMwebp_QL65_.jpg",
         "id" : "item10",
-        "currency" : "$"
+        "currency" : "$",
+        "username":"sardana"
+
     }
 ]

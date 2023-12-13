@@ -11,7 +11,7 @@ import FavoriteItems from './pages/FavoriteItems';
 import Username from './components/UsernameInput';
 import Password from './Password'
 import './App.css'
-import AddPhoneNumber from './actions/addPhoneNumber';
+import ItemBlockOfMyStore from './components/ItemBlockOfMyStore'
 
 function App() {
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ function App() {
 
   return (
     <>
-    {/* <Routes>
+    <Routes>
         <Route path='/login' element={<Login/>}/>
         <Route path='/register' element={<Register/>}/>
         <Route path='/' element={<MainScreen/>} />
@@ -44,8 +44,8 @@ function App() {
         <Route path='/mystore' element={<MyStore/>}/>
         <Route path='/favorite' element={<FavoriteItems/>}/>
         <Route path='/password' element={<Password/>}/>
-    </Routes> */}
-    <AddPhoneNumber/>
+    </Routes>
+    {/* <ItemBlockOfMyStore/> */}
     </>
   )
 }

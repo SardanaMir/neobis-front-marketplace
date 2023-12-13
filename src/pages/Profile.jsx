@@ -3,11 +3,12 @@ import { Navigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import BackToMain from '../components/BackToMain';
 import { useAuth } from '../hooks/use-Auth'; 
+import AddPhoneNumber from '../actions/AddPhoneNumber'
 
 function Profile(props) {
     const [username, setUsername] = useState('')
     const [success, setSuccess] = useState('');
-    // const {username} = useSelector()
+    const [isModalOpen, setisModalOpen] = useState(false);
 
     const [userData, setUserData] = useState({
         firstName: '',
@@ -110,9 +111,9 @@ function Profile(props) {
                     value={userData.birthday}
                     onChange={handleInputChange}
                     className='max-w-full h-11 pl-4 border-b border-solid border-gray-300 text-gray-600 focus:outline-none rounded-b-xl'/>
-                    
+                    <AddPhoneNumber setisModalOpen={setisModalOpen} isModalOpen={isModalOpen}/>
                     <div className='max-w-full h-11 pl-4 mt-3 bg-white border-b border-solid border-gray-300 rounded-t-xl flex justify-between'>
-                        <button className='text-indigo-600 font-semibold'>Добавить номер</button>
+                        <button onClick={()=>setisModalOpen(true)} className='text-indigo-600 font-semibold'>Добавить номер</button>
                         <input 
                         type="tel" 
                         name='tel'
