@@ -1,10 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import ChangeItemInfoForm from './ChangeItemInfoForm';
 
 function ItemBlockOfMyStore({item, index, setProductCard, setisModalOpen}){
-    const [open, setOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
     const [popupVisible, setPopupVisible] = useState(false);
     const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
+    const [changeProductInfo, setChangeProductInfo] = useState()
+    // const [isModalOpen, setisModalOpen] = useState(false);
+    const [product, setProduct] = useState();
+    const [selectedProduct, setSelectedProduct] = useState(false);
+
 
     const handleClick = (e) => {
       setPopupPosition({ x: e.clientX, y: e.clientY });
@@ -18,14 +24,20 @@ function ItemBlockOfMyStore({item, index, setProductCard, setisModalOpen}){
     const handleChangeItemInfo = (data) =>{
         setPopupVisible(false);
         //вызываем модальное окно
-        console.log(data)
-
+        setProduct(data)
+        setSelectedProduct(true)
     }
+
     const handleDeleteItem = (data) =>{
         setPopupVisible(false);
         //получаем данные товара и отправляем на endpoint на удаление
         console.log(data)
+        setChangeProductInfo(true)
     }
+
+    useEffect(()=>{
+        
+    })
 
     return(
         <>
@@ -55,16 +67,17 @@ function ItemBlockOfMyStore({item, index, setProductCard, setisModalOpen}){
                 border: 'none',
                 borderRadius:'20px'
               }}>
-                <div onClick={()=>handleChangeItemInfo(item.id)} className='flex gap-3 items-center'>
+                <div onClick={()=>(handleChangeItemInfo(item), setIsOpen(true))} className='flex gap-3 items-center'>
                     <img src="src/assets/icons/change.svg" alt="change button" />
                     <p className='text-sm text-indigo-600 font-semibold cursor-pointer'>Изменить</p>
                 </div>
-                <div onClick={()=>handleDeleteItem(item.id)} className='flex gap-3 items-center mt-3'>
+                <div onClick={()=>handleDeleteItem(item)} className='flex gap-3 items-center mt-3'>
                     <img src="src/assets/icons/delete.svg" alt="delete button" />
                     <p className='text-sm text-indigo-600 font-semibold cursor-pointer'>Удалить</p>
                 </div>
             </div>
         )}
+        {selectedProduct && (<ChangeItemInfoForm product={product} setIsOpen={setIsOpen} isOpen={isOpen}/>)}
         </>
 
     )

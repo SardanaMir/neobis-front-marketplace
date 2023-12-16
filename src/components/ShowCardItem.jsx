@@ -14,7 +14,7 @@ function ShowCardItem({item, setisModalOpen, isModalOpen}){
         <p className='text-base font-semibold mt-4'>Детальная информация</p>
         <p className='text-sm text-gray-400'>{item.details}</p>
       </div>
-    // </div>
+    </div>
   )
 }
 export default ShowCardItem

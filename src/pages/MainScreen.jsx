@@ -1,15 +1,18 @@
-import { useEffect, useState, useDispatch } from 'react';
+import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
 import mystore from '../mystore.json';
 import ShowCardItem from '../components/ShowCardItem';
 import MainScreenHeader from '../components/MainScreenHeader';
 import ItemBlock from '../components/ItemBlock';
 import { useAuth } from '../hooks/use-Auth'; 
+import {addProducts} from '../store/productsSlice';
 
 function MainScreen() {
     const [isModalOpen, setisModalOpen] = useState(false);
     const [productCard, setProductCard] = useState('');
     const location = useLocation();
+    const dispatch = useDispatch();
 
     console.log(location)
     // useEffect(() => {
@@ -21,6 +24,9 @@ function MainScreen() {
     if (isAuth.isAuth === false){
       return <Navigate to='/login'/>
     }
+    dispatch(addProducts(mystore));
+    const products = useSelector(state=>state.products.items)
+    console.log(products)
 
   return (
     <>
@@ -28,7 +34,7 @@ function MainScreen() {
       <div className="p-6 bg-gray-100">
         <MainScreenHeader/>
         <div className='p-10 flex flex-wrap justify-center gap-4'>
-          {mystore.map((item, index) =>(
+          {products.map((item, index) =>(
             <div className='w-40 h-50 bg-white rounded-xl p-6 cursor-pointer flex flex-col justify-between'>
               <ItemBlock item={item} index={index} setProductCard={setProductCard} setisModalOpen={setisModalOpen}/>
             </div>

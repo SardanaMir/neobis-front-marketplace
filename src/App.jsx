@@ -12,7 +12,8 @@ import Username from './components/UsernameInput';
 import Password from './Password'
 import './App.css'
 import ItemBlockOfMyStore from './components/ItemBlockOfMyStore'
-
+import ChangeItemInfoForm from './components/ChangeItemInfoForm';
+import Test from './Test'
 function App() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -45,7 +46,7 @@ function App() {
         <Route path='/favorite' element={<FavoriteItems/>}/>
         <Route path='/password' element={<Password/>}/>
     </Routes>
-    {/* <ItemBlockOfMyStore/> */}
+    {/* <Test/> */}
     </>
   )
 }

@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import BackToMain from '../components/BackToMain';
 import { useAuth } from '../hooks/use-Auth'; 
-import AddPhoneNumber from '../actions/AddPhoneNumber'
+import AddPhoneNumber from '../components/AddPhoneNumber'
 
 function Profile(props) {
     const [username, setUsername] = useState('')

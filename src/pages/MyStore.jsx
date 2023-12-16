@@ -8,6 +8,7 @@ import ItemBlock from '../components/ItemBlock';
 import BackToMain from '../components/BackToMain';
 import { useAuth } from '../hooks/use-Auth'; 
 import ItemBlockOfMyStore from '../components/ItemBlockOfMyStore';
+
 function MyStore() {
     const [isModalOpen, setisModalOpen] = useState(false);
     const [productCard, setProductCard] = useState('');
@@ -16,12 +17,14 @@ function MyStore() {
     const showProductCard = (item) => {
         setProductCard(item);
     }
-    //проверка на логи
+    //проверка на логин
     // const isAuth = useAuth();
     // if (isAuth.isAuth === false){
     //   return <Navigate to='/login'/>
     // }
-    let mytruestore = mystore.filter((item) =>{
+    const products = useSelector(state=>state.products.items)
+    console.log(products)
+    let mytruestore = products.filter((item) =>{
         if (item.username === username){
             return true
         }

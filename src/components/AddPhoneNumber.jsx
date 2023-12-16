@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Timer from '../components/Timer';
+import Timer from './Timer';
 
 function AddPhoneNumber({setisModalOpen, isModalOpen}){
     const [phoneNumber, setPhoneNumber] = useState('');
