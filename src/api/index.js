@@ -1,20 +1,70 @@
 import axios from 'axios';
 
-const URL = 'http://68.183.64.48:8081/auth/';
+const URL = 'https://pavel-backender.org.kg/';
 
-const instance = axios.create({
+const API = axios.create({
     baseURL: URL,
     headers: {
-        "Content-Type" : 'application/json',
+      "Content-Type" : 'application/json',
     }
 });
 
+API.interceptors.request.use(async (config) => {
+  // const token = localStorage.getItem('accessToken');
+  // if (token) {
+  //   config.headers.Authorization = `Bearer ${token}`;
+  // }
+  config.headers['X-CSRFTOKEN'] = 'Srb86aUhbggjMO7VBMIvergyNA8aVN52'; // Добавляем CSRF токен в заголовок
+
+  // if (config.url !== 'the_login_endpoint') { // Убедитесь, что CSRF токен не обновляется при входе пользователя
+  //   const csrfToken = localStorage.getItem('csrfToken');
+  // }
+
+  return config;
+}, (error) => {
+  return Promise.reject(error);
+});
+
+  
+API.interceptors.response.use(response => {
+  return response;
+}, error => {
+  if (error.response.status === 401) { 
+    console.log(error)
+  }
+  return Promise.reject(error);
+});
+
 export const login = async (data) =>{
-    const res = await instance.post('authenticate', data)
+    const res = await API.post('api/v1/auth/login/', data)
     return res.data
 }
 
 export const register = async (data) =>{
-    const res = await instance.post('registration', data)
+    const res = await API.post('api/registration/', data)
     return res.data
+}
+
+export const allProducts = async () =>{
+    const res = await API.get('products/all/')
+    return res.data
+}
+
+export const addNewItem = async () =>{
+    const res = await API.get('products/all/')
+    return res.data
+}
+export const profileInfo = async () =>{
+  const res = await API.get('api/profile/')
+  return res.data
+}
+
+export const changeProfileInfo = async (data) =>{
+  const res = await API.put('api/profile/', data)
+  return res.data
+}
+
+export const checkPhoneNumber = async (data) =>{
+  const res = await API.put('api/profile/', data)
+  return res.data
 }

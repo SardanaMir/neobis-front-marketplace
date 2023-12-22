@@ -1,60 +1,56 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
-function UserProfileForm() {
-  const [userData, setUserData] = useState({
-    name: '',
-    email: '',
-    // Другие поля пользователя
-  });
+function ProductForm() {
+  const [products, setProducts] = useState([
+    { id: 1, name: 'Товар 1', price: 100 },
+    { id: 2, name: 'Товар 2', price: 150 },
+  ]);
 
-  useEffect(() => {
-    // Загрузка данных пользователя при монтировании компонента
-    fetchUserData(); // Реализуйте эту функцию для загрузки данных пользователя
-  }, []);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [editingProduct, setEditingProduct] = useState({ id: null, name: '', price: 0 });
 
-  const fetchUserData = async () => {
-    // Логика для загрузки данных пользователя с сервера
-    try {
-      const response = await fetch('http://localhost:3000/userData'); // Реализуйте эндпоинт для загрузки данных пользователя
-      const userDataFromServer = await response.json();
-      setUserData(userDataFromServer);
-    } catch (error) {
-      console.error('Ошибка при загрузке данных пользователя', error);
-    }
+  const handleProductClick = (product) => {
+    setSelectedProduct(product);
+    setEditingProduct({ id: product.id, name: product.name, price: product.price });
   };
 
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      const response = await fetch('http://localhost:3000/users/123', { // Замените на фактический ID пользователя
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(userData),
-      });
-
-      const updatedUserData = await response.json();
-      console.log('Данные пользователя успешно обновлены:', updatedUserData);
-    } catch (error) {
-      console.error('Ошибка при обновлении данных пользователя', error);
-    }
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditingProduct({ ...editingProduct, [name]: value });
   };
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setUserData({ ...userData, [name]: value });
+  const handleSaveChanges = () => {
+    setProducts(products.map(product => (product.id === editingProduct.id ? editingProduct : product)));
+    setSelectedProduct(null);
   };
 
   return (
-    <form onSubmit={handleFormSubmit}>
-      <label htmlFor="name">Имя:</label>
-      <input type="text" id="name" name="name" value={userData.name} onChange={handleInputChange} />
-      <label htmlFor="email">Email:</label>
-      <input type="text" id="email" name="email" value={userData.email} onChange={handleInputChange} />
-      <button type="submit">Сохранить</button>
-    </form>
+    <div>
+      <ul>
+        {products.map(product => (
+          <li key={product.id} onClick={() => handleProductClick(product)}>
+            {product.name}
+          </li>
+        ))}
+      </ul>
+      {selectedProduct && (
+        <div>
+          <h2>{selectedProduct.name}</h2>
+          <form>
+            <div>
+              <label>Название: </label>
+              <input type="text" name="name" value={editingProduct.name} onChange={handleInputChange} />
+            </div>
+            <div>
+              <label>Цена: </label>
+              <input type="number" name="price" value={editingProduct.price} onChange={handleInputChange} />
+            </div>
+            <button type="button" onClick={handleSaveChanges}>Сохранить изменения</button>
+          </form>
+        </div>
+      )}
+    </div>
   );
 }
 
-export default UserProfileForm;
+export default ProductForm;

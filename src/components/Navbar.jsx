@@ -1,38 +1,26 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useState } from 'react';
-import userReducer from '../store';
-import Profile from '../pages/Profile';
-import MyStore from '../pages/MyStore';
 import {Link, useNavigate} from 'react-router-dom';
-import { removeUser } from '../store/userSlice';
+import {removeUser} from '../redux/slices/userSlice'
 
 
 function Navbar() {
-    const [profile, setProfile] = useState(false);
-    const [mystore, setMystore] = useState(false);
     const [isLogout, setIsLogot] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const {username} = useSelector(state => state.user);
 
-    const handleProfile = (e) =>{
-        e.preventDefault();
-        setProfile(true)
-    }
-    
-    const showMyStore = (e) =>{
-        e.preventDefault();
-        setMystore(true)
-    }
+    const {username, firstName} = useSelector(state => state.user);
+
     const handleLogout = () => {
-        dispatch(removeUser())
+        dispatch(removeUser());
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
         navigate('/login')
-        localStorage.clear()
     }
 
   return (
     <>
-        <div className={isLogout ? 'fixed w-full	h-full top-0 bg-black bg-opacity-50' : 'hidden'} onClick={() => setIsLogot(false)}>
+        <div className={isLogout ? 'fixed w-full h-full top-0 bg-black bg-opacity-50' : 'hidden'} onClick={() => setIsLogot(false)}>
             <div className='w-96 min-h-fit bg-white p-5 rounded-3xl flex flex-col items-center top-2/4 left-2/4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
                 <img src="src/assets/icons/logout-1.svg" alt="logout" />
                 <p className='text-base font-semibold text-center mt-3'>Вы действительно хотите выйти с приложения?</p>
@@ -47,34 +35,34 @@ function Navbar() {
                     <img src="src/assets/icons/user.svg" alt="user" />
                 </div>
                 <div>
-                    <p className='text-lg font-semibold'>Сардана</p>
+                    <p className='text-lg font-semibold'>{firstName}</p>
                     <p className='text-lg font-normal'>{username}</p>
                 </div>
             </Link>
             <Link to='/favorite' className='flex gap-x-3 items-center mt-11 justify-between cursor-pointer'>
                 <div className='flex gap-x-3 items-center'>
-                    <img src="src/assets/icons/heart.svg" alt="" />
+                    <img src="src/assets/icons/heart.svg" alt="Сердце" />
                     <p>Понравившиеся</p>
                 </div>
-                <img src="src/assets/icons/direction-right.svg" alt="" />
+                <img src="src/assets/icons/direction-right.svg" alt="Стрелка направо" />
             </Link>
             <Link to='/mystore' className='flex gap-x-3 items-center mt-5 justify-between cursor-pointer'>
                 <div className='flex gap-x-3 items-center'>
                     <div className='w-8 h-8 bg-indigo-600 rounded-md flex items-center justify-center'>
-                        <img src="src/assets/icons/store.svg" alt="" />
+                        <img src="src/assets/icons/store.svg" alt="мой склад" />
                     </div>
                     <p>Мои товары</p>
                 </div>
-                <img src="src/assets/icons/direction-right.svg" alt="" />
+                <img src="src/assets/icons/direction-right.svg" alt="Стрелка направо" />
             </Link>
             <div onClick={()=>setIsLogot(true)} className='flex gap-x-3 items-center mt-14 justify-between cursor-pointer'>
                 <div className='flex gap-x-3 items-center'>
                     <div className='w-8 h-8 bg-indigo-600 rounded-md flex items-center justify-center'>
-                        <img src="src/assets/icons/logout.svg" alt="" />
+                        <img src="src/assets/icons/logout.svg" alt="выйти" />
                     </div>
                     <p>Выйти</p>
                 </div>
-                <img src="src/assets/icons/direction-right.svg" alt="" />
+                <img src="src/assets/icons/direction-right.svg" alt="Стрелка направо" />
             </div>
         </section>
     </>

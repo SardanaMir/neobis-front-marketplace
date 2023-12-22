@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import {updateProduct} from '../store/productsSlice';
+import {updateProduct} from '../redux/slices/productsSlice';
 import mystore from '../mystore.json'
 
 const ChangeItemInfoForm = ({setIsOpen, isOpen, product}) => {
@@ -27,8 +27,6 @@ const ChangeItemInfoForm = ({setIsOpen, isOpen, product}) => {
     console.log(editingProduct.price)
     //тут отправляем новые данные в бэк и toolkit
     dispatch(updateProduct({ id: editingProduct.id, newPrice }));
-
-
   };
 
   return (

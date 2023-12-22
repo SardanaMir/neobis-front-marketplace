@@ -1,53 +1,46 @@
 
 import React, {useEffect} from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
-import { useAuth } from './hooks/use-Auth';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
 import MyStore from './pages/MyStore'
 import MainScreen from './pages/MainScreen';
 import FavoriteItems from './pages/FavoriteItems';
-import Username from './components/UsernameInput';
 import Password from './Password'
 import './App.css'
-import ItemBlockOfMyStore from './components/ItemBlockOfMyStore'
-import ChangeItemInfoForm from './components/ChangeItemInfoForm';
-import Test from './Test'
+
 function App() {
   const navigate = useNavigate();
-  const location = useLocation();
+  const isAuth = useSelector(state => state.user.isAuth);
 
-  // const isAuth = useAuth();
-  // if (isAuth.isAuth === false){
-  //   return <Navigate to='/login'/>
-  // }
-
-  useEffect(() => {
-    const pathname = location.pathname;
-    localStorage.setItem('lastPath', pathname);
-  }, [location]);
-
-  // useEffect(() => {
-  //   const lastPath = localStorage.getItem('lastPath');
-  //   if (lastPath) {
-  //     navigate(lastPath);
-  //   }
-  // }, [navigate]);
+  useEffect(()=>{
+    if(!isAuth){
+      navigate('/login')
+    }
+    // console.log(isAuth)
+  },[isAuth])
 
   return (
-    <>
     <Routes>
-        <Route path='/login' element={<Login/>}/>
-        <Route path='/register' element={<Register/>}/>
-        <Route path='/' element={<MainScreen/>} />
-        <Route path='/profile' element={<Profile/>}/>
-        <Route path='/mystore' element={<MyStore/>}/>
-        <Route path='/favorite' element={<FavoriteItems/>}/>
-        <Route path='/password' element={<Password/>}/>
+      {
+        isAuth ? (
+          <>
+            <Route path='/' element={<MainScreen/>} />
+            <Route path='/profile' element={<Profile/>}/>
+            <Route path='/favorite' element={<FavoriteItems/>}/>
+            <Route path='/mystore' element={<MyStore/>}/>
+          </>
+        ) : (
+          <>
+            <Route path='/login' element={<Login/>}/>
+            <Route path='/register' element={<Register/>}/>
+            <Route path='/password' element={<Password/>}/>
+          </>
+        )
+      }
     </Routes>
-    {/* <Test/> */}
-    </>
   )
 }
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Timer from './Timer';
+import { checkPhoneNumber, changeProfileInfo } from '../api';
 
 function AddPhoneNumber({setisModalOpen, isModalOpen}){
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -8,17 +9,26 @@ function AddPhoneNumber({setisModalOpen, isModalOpen}){
     const [checkPhonNumError, setCheckPhonNumError] = useState(false)
     const [codeError, setCodeError] = useState(false)
 
-    const handlePhoneNumber = (e) =>{
+    const handlePhoneNumber = async (e) =>{
         e.preventDefault();
         const input = e.target.value;
-        const formattedInput = input.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+        const formattedInput = phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
 
         setPhoneNumber(formattedInput);
+        console.log(formattedInput)
+        const data = {
+            "phone_number": formattedInput,
+            // "username": "bolitip356"
+        }
         //endpoint на проверку номера телефона 
         try{
-            setSuccess(true)
+            // setSuccess(true)
+            const response = await checkPhoneNumber(data);
+            console.log(response)
         }catch(err){
             // setCheckPhonNumError(true)
+            console.log(err)
+
         }
     }
     //проверка кода
@@ -33,6 +43,16 @@ function AddPhoneNumber({setisModalOpen, isModalOpen}){
             // setCodeError(true)
         }
     }
+    
+
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+    
+    const token = getCookie('your_cookie_name');
+    console.log(token);
 
     return (
         <>
@@ -61,9 +81,19 @@ function AddPhoneNumber({setisModalOpen, isModalOpen}){
                 <h2 className='text-xl mt-6'>Введите номер телефона</h2>
                 <p className='text-base text-gray-400 text-center'>Мы отправим вам СМС с кодом подтверждения</p>
                 <form className='flex flex-col mt-6	items-center'>
-                    <input type="text" onChange={handlePhoneNumber} value={phoneNumber} placeholder='(000) 000-0000' minLength={10} maxLength={10} className="text-3xl w-52 focus:outline-none" />
+                    <input 
+                    type="text" 
+                    value={phoneNumber} 
+                    onChange={(e)=> setPhoneNumber(e.target.value)} 
+                    placeholder='(000) 000-0000' 
+                    minLength={10} 
+                    maxLength={10} 
+                    className="text-3xl w-52 focus:outline-none" />
                     {checkPhonNumError && (<p className='text-base text-red-500 font-semibold text-center'>Данный номер уже зарегистрирован</p>)}
-                    <button className='w-80 h-11 bg-indigo-600 text-white rounded-2xl focus:outline-none mt-6'>Далее</button>
+                    
+                    <button 
+                    onClick={handlePhoneNumber}  
+                    className='w-80 h-11 bg-indigo-600 text-white rounded-2xl focus:outline-none mt-6'>Далее</button>
                 </form>
             </div>
         </div>

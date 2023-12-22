@@ -15,10 +15,10 @@ function FavoriteItems() {
     const [isBlockShow, setIsBlockShow] = useState(true);
 
     let likedItemsArr = JSON.parse(localStorage.getItem('data')) || [];
-    const isAuth = useAuth();
-    if (isAuth.isAuth === false){
-      return <Navigate to='/login'/>
-    }
+    // const isAuth = useAuth();
+    // if (isAuth.isAuth === false){
+    //   return <Navigate to='/login'/>
+    // }
     // const likeItem = (index, item) =>{
     //     const updatedLikedItems = [...likedItems];
     //     updatedLikedItems[index] = !updatedLikedItems[index];

@@ -1,32 +1,59 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Navigate, useLocation } from 'react-router-dom';
 import mystore from '../mystore.json';
 import ShowCardItem from '../components/ShowCardItem';
 import MainScreenHeader from '../components/MainScreenHeader';
 import ItemBlock from '../components/ItemBlock';
-import { useAuth } from '../hooks/use-Auth'; 
-import {addProducts} from '../store/productsSlice';
+import {addProducts} from '../redux/slices/productsSlice';
+import {allProducts} from '../api';
 
 function MainScreen() {
     const [isModalOpen, setisModalOpen] = useState(false);
     const [productCard, setProductCard] = useState('');
-    const location = useLocation();
     const dispatch = useDispatch();
-
-    console.log(location)
-    // useEffect(() => {
-    //     const data = JSON.parse(localStorage.getItem('data')) || {};
-    //     const updatedLikedItems = mystore.map(item => data.some(likedItem => likedItem.id === item.id));
-    //     setLikedItems(updatedLikedItems);
-    // },[]);
-    const isAuth = useAuth();
-    if (isAuth.isAuth === false){
-      return <Navigate to='/login'/>
-    }
-    dispatch(addProducts(mystore));
     const products = useSelector(state=>state.products.items)
-    console.log(products)
+
+    const prodAllFromBack = async () => {
+      const response = await allProducts();
+      console.log(response)
+    }
+    useEffect(() => {
+      // const data = JSON.parse(localStorage.getItem('data')) || {};
+      // const updatedLikedItems = mystore.map(item => data.some(likedItem => likedItem.id === item.id));
+      // setLikedItems(updatedLikedItems);
+      dispatch(addProducts(mystore));
+      console.log(prodAllFromBack())
+    },[]);
+
+
+
+    // const products = async () =>{
+    //   console.log('555')
+
+    //   try{
+    //     console.log('1111')
+
+    //     const res = await allProducts()
+    //     console.log(res)
+    //     return res
+    //   }
+    //   catch(err){
+    //     console.log(err)
+    //   }
+    // }
+    // useEffect(()=>{
+    //   products()
+    // })
+  // const getProducts = async () =>{
+  //   try{
+  //     dispatch(fetchItems())
+  //   }catch(err){
+  //     console.log(err)
+  //   }
+  // }
+  // useEffect(()=>{
+  //   getProducts()
+  // }, [])
 
   return (
     <>

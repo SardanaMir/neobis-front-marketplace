@@ -4,63 +4,62 @@ import Navbar from '../components/Navbar';
 import BackToMain from '../components/BackToMain';
 import { useAuth } from '../hooks/use-Auth'; 
 import AddPhoneNumber from '../components/AddPhoneNumber'
+import { profileInfo, changeProfileInfo } from '../api';
 
-function Profile(props) {
+function Profile() {
     const [username, setUsername] = useState('')
     const [success, setSuccess] = useState('');
     const [isModalOpen, setisModalOpen] = useState(false);
 
     const [userData, setUserData] = useState({
-        firstName: '',
-        lastName:'',
+        first_name: '',
+        last_name:'',
         email: '',
-        birthday:'',
-        tel:'',
+        DOB:'',
+        phone_number:'',
         username:'',
         // Другие поля пользователя
     });
 
-    const isAuth = useAuth();
-    if (isAuth.isAuth === false){
-      return <Navigate to='/login'/>
-    }
 
+    
+    const fetchUserData = async () => {
+        // Логика для загрузки данных пользователя с сервера
+        try {
+            const response = await profileInfo(); 
+            // Реализуйте эндпоинт для загрузки данных пользователя
+            // const userDataFromServer = await response.json();
+            // setUserData(userDataFromServer);
+            console.log(response)
+        } catch (error) {
+            console.error('Ошибка при загрузке данных пользователя', error);
+        }
+    };
     useEffect(() => {
         // Загрузка данных пользователя при монтировании компонента
         fetchUserData(); // Реализуйте эту функцию для загрузки данных пользователя
     }, []);
-    
-    const fetchUserData = async () => {
-    // Логика для загрузки данных пользователя с сервера
-    try {
-        const response = await fetch('https://mocki.io/v1/ee262848-b746-4487-b0c3-b04a0f3e163c'); 
-        // Реализуйте эндпоинт для загрузки данных пользователя
-        const userDataFromServer = await response.json();
-        setUserData(userDataFromServer);
-    } catch (error) {
-        console.error('Ошибка при загрузке данных пользователя', error);
-        }
-    };
-    
     const handleFormSubmit = async (event) => {
-    event.preventDefault();
-    try {
-        const response = await fetch('http://localhost:3000/users/123', { // Замените на фактический ID пользователя
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(userData),
-        });
-        const updatedUserData = await response.json();
-        console.log('Данные пользователя успешно обновлены:', updatedUserData);
-    } catch (error) {
-        console.error('Ошибка при обновлении данных пользователя', error);
-    }
+        event.preventDefault();
+        console.log(userData)
+        try {
+            // const response = await fetch('http://localhost:3000/users/123', { // Замените на фактический ID пользователя
+            // method: 'PUT',
+            // headers: {
+            //     'Content-Type': 'application/json',
+            // },
+            // body: JSON.stringify(userData),
+            // });
+            // const updatedUserData = await response.json();
+            // console.log('Данные пользователя успешно обновлены:', updatedUserData);
+            const response = await changeProfileInfo(userData);
+            console.log(response)
+        } catch (error) {
+            console.error('Ошибка при обновлении данных пользователя', error);
+        }
     };
 
     const handleInputChange = (event) => {
-        console.log(event.target)
         const { name, value } = event.target;
         setUserData({ ...userData, [name]: value });
     };
@@ -82,17 +81,17 @@ function Profile(props) {
                     <input 
                     type="text" 
                     id='firstName' 
-                    name='firstName' 
+                    name='first_name' 
                     placeholder='Имя'
-                    value={userData.firstName}
+                    value={userData.first_name}
                     onChange={handleInputChange}
                     className='max-w-full h-11 pl-4	border-b border-solid border-gray-300 text-gray-600 focus:outline-none rounded-t-xl'/>
                     <input 
                     type="text" 
-                    id='lastName' 
-                    name='lastName' 
+                    id='last_name' 
+                    name='last_name' 
                     placeholder='Фамилия'
-                    value={userData.lastName}
+                    value={userData.last_name}
                     onChange={handleInputChange}
                     className='max-w-full h-11 pl-4 border-b border-solid border-gray-300 text-gray-600 focus:outline-none'/>
                     <input 
@@ -106,19 +105,21 @@ function Profile(props) {
                     <input 
                     type="text" 
                     id='birthday' 
-                    name='birthday' 
+                    name='DOB' 
                     placeholder='Дата рождения' 
-                    value={userData.birthday}
+                    value={userData.DOB}
                     onChange={handleInputChange}
                     className='max-w-full h-11 pl-4 border-b border-solid border-gray-300 text-gray-600 focus:outline-none rounded-b-xl'/>
+                    
                     <AddPhoneNumber setisModalOpen={setisModalOpen} isModalOpen={isModalOpen}/>
+                    
                     <div className='max-w-full h-11 pl-4 mt-3 bg-white border-b border-solid border-gray-300 rounded-t-xl flex justify-between'>
                         <button onClick={()=>setisModalOpen(true)} className='text-indigo-600 font-semibold'>Добавить номер</button>
                         <input 
                         type="tel" 
                         name='tel'
                         placeholder='0(000)000 000' 
-                        value={userData.tel}
+                        value={userData.phone_number}
                         onChange={handleInputChange}
                         className='h-11 pl-4 border-b border-solid border-gray-300 text-gray-600 focus:outline-none rounded-t-xl'/>
                     </div>
@@ -130,9 +131,9 @@ function Profile(props) {
                     placeholder='E-mail'
                     value={userData.email}
                     className='max-w-full h-11 pl-4 border-b border-solid border-gray-300 text-gray-600 focus:outline-none rounded-b-xl'/>
-                    {/* <button 
+                    <button 
                     type="submit"
-                    className='w-80 h-11 bg-indigo-600 text-white rounded-2xl focus:outline-none mt-6'>Сохранить</button> */}
+                    className='w-80 h-11 bg-indigo-600 text-white rounded-2xl focus:outline-none mt-6'>Сохранить</button>
                 </form>
             </div>
         </div>
