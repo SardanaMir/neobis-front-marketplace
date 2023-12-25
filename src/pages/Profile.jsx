@@ -18,19 +18,13 @@ function Profile() {
         DOB:'',
         phone_number:'',
         username:'',
-        // Другие поля пользователя
+        profile_image: null
     });
 
-
-    
     const fetchUserData = async () => {
-        // Логика для загрузки данных пользователя с сервера
         try {
             const response = await profileInfo(); 
-            // Реализуйте эндпоинт для загрузки данных пользователя
-            // const userDataFromServer = await response.json();
-            // setUserData(userDataFromServer);
-            console.log(response)
+            setUserData(response);
         } catch (error) {
             console.error('Ошибка при загрузке данных пользователя', error);
         }
@@ -39,21 +33,11 @@ function Profile() {
         // Загрузка данных пользователя при монтировании компонента
         fetchUserData(); // Реализуйте эту функцию для загрузки данных пользователя
     }, []);
+
     const handleFormSubmit = async (event) => {
         event.preventDefault();
-        console.log(userData)
         try {
-            // const response = await fetch('http://localhost:3000/users/123', { // Замените на фактический ID пользователя
-            // method: 'PUT',
-            // headers: {
-            //     'Content-Type': 'application/json',
-            // },
-            // body: JSON.stringify(userData),
-            // });
-            // const updatedUserData = await response.json();
-            // console.log('Данные пользователя успешно обновлены:', updatedUserData);
             const response = await changeProfileInfo(userData);
-            console.log(response)
         } catch (error) {
             console.error('Ошибка при обновлении данных пользователя', error);
         }
@@ -61,8 +45,8 @@ function Profile() {
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
-        setUserData({ ...userData, [name]: value });
-    };
+        setUserData({ ...userData, [name]: value, "password": "Qazwsx1234!", 
+    })};
  
     return (
     <div className='flex h-screen'>
@@ -106,12 +90,12 @@ function Profile() {
                     type="text" 
                     id='birthday' 
                     name='DOB' 
-                    placeholder='Дата рождения' 
+                    placeholder='Дата рождения (YYYY-MM-DD)' 
                     value={userData.DOB}
                     onChange={handleInputChange}
                     className='max-w-full h-11 pl-4 border-b border-solid border-gray-300 text-gray-600 focus:outline-none rounded-b-xl'/>
                     
-                    <AddPhoneNumber setisModalOpen={setisModalOpen} isModalOpen={isModalOpen}/>
+                    <AddPhoneNumber setisModalOpen={setisModalOpen} isModalOpen={isModalOpen} userData={userData} setUserData={setUserData}/>
                     
                     <div className='max-w-full h-11 pl-4 mt-3 bg-white border-b border-solid border-gray-300 rounded-t-xl flex justify-between'>
                         <button onClick={()=>setisModalOpen(true)} className='text-indigo-600 font-semibold'>Добавить номер</button>

@@ -2,29 +2,25 @@ import React, { useState } from 'react';
 import Timer from './Timer';
 import { checkPhoneNumber, changeProfileInfo } from '../api';
 
-function AddPhoneNumber({setisModalOpen, isModalOpen}){
+function AddPhoneNumber({setisModalOpen, isModalOpen, userData, setUserData}){
     const [phoneNumber, setPhoneNumber] = useState('');
     const [success, setSuccess] = useState(false)
     const [code, setCode] = useState('');
     const [checkPhonNumError, setCheckPhonNumError] = useState(false)
     const [codeError, setCodeError] = useState(false)
+    // console.log(userData);
 
     const handlePhoneNumber = async (e) =>{
         e.preventDefault();
         const input = e.target.value;
         const formattedInput = phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
-
-        setPhoneNumber(formattedInput);
-        console.log(formattedInput)
-        const data = {
-            "phone_number": formattedInput,
-            // "username": "bolitip356"
-        }
+        setUserData({ ...userData, "phone_number": formattedInput, "password": "Qazwsx1234!"});
+        console.log(userData);
         //endpoint на проверку номера телефона 
         try{
-            // setSuccess(true)
-            const response = await checkPhoneNumber(data);
-            console.log(response)
+            const response = await checkPhoneNumber(userData);
+            console.log(response);
+            setSuccess(true)
         }catch(err){
             // setCheckPhonNumError(true)
             console.log(err)
@@ -50,9 +46,6 @@ function AddPhoneNumber({setisModalOpen, isModalOpen}){
       const parts = value.split(`; ${name}=`);
       if (parts.length === 2) return parts.pop().split(';').shift();
     }
-    
-    const token = getCookie('your_cookie_name');
-    console.log(token);
 
     return (
         <>
@@ -83,6 +76,7 @@ function AddPhoneNumber({setisModalOpen, isModalOpen}){
                 <form className='flex flex-col mt-6	items-center'>
                     <input 
                     type="text" 
+                    name="phone_number"
                     value={phoneNumber} 
                     onChange={(e)=> setPhoneNumber(e.target.value)} 
                     placeholder='(000) 000-0000' 

@@ -10,16 +10,10 @@ const API = axios.create({
 });
 
 API.interceptors.request.use(async (config) => {
-  // const token = localStorage.getItem('accessToken');
-  // if (token) {
-  //   config.headers.Authorization = `Bearer ${token}`;
-  // }
-  config.headers['X-CSRFTOKEN'] = 'Srb86aUhbggjMO7VBMIvergyNA8aVN52'; // Добавляем CSRF токен в заголовок
-
-  // if (config.url !== 'the_login_endpoint') { // Убедитесь, что CSRF токен не обновляется при входе пользователя
-  //   const csrfToken = localStorage.getItem('csrfToken');
-  // }
-
+  const token = localStorage.getItem('accessToken');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
   return config;
 }, (error) => {
   return Promise.reject(error);
