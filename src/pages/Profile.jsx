@@ -5,6 +5,7 @@ import BackToMain from '../components/BackToMain';
 import { useAuth } from '../hooks/use-Auth'; 
 import AddPhoneNumber from '../components/AddPhoneNumber'
 import { profileInfo, changeProfileInfo } from '../api';
+import { basicSchema } from '../schema';
 
 function Profile() {
     const [username, setUsername] = useState('')
@@ -18,7 +19,7 @@ function Profile() {
         DOB:'',
         phone_number:'',
         username:'',
-        profile_image: null
+        profile_image: ''
     });
 
     const fetchUserData = async () => {
@@ -38,16 +39,18 @@ function Profile() {
         event.preventDefault();
         try {
             const response = await changeProfileInfo(userData);
+            console.log(response)
         } catch (error) {
             console.error('Ошибка при обновлении данных пользователя', error);
         }
     };
-
+    // 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
-        setUserData({ ...userData, [name]: value, "password": "Qazwsx1234!", 
-    })};
- 
+        setUserData({ ...userData, [name]: value, profile_image: null});
+        console.log(userData)
+    };
+    // src/assets/icons/user.svg
     return (
     <div className='flex h-screen'>
         <Navbar/>
@@ -57,11 +60,11 @@ function Profile() {
                 <h2 className='text-lg font-bold text-center'>Личный кабинет</h2>
                 <div className='flex flex-col items-center'>
                     <div className='w-16 h-16 flex bg-indigo-600 rounded-full justify-center items-center mt-24'>
-                        <img src="src/assets/icons/user.svg" alt="" />
+                        <img src={userData.profile_image} className="w-16 h-16 rounded-full" alt="user photo" />
                     </div>
                     <p className='text-base font-semibold text-indigo-600'>Выбрать фотографию</p>
                 </div>
-                <form onSubmit={handleFormSubmit}className='flex flex-col mt-8'>
+                <form onSubmit={handleFormSubmit} enctype="multipart/form-data" className='flex flex-col mt-8'>
                     <input 
                     type="text" 
                     id='firstName' 

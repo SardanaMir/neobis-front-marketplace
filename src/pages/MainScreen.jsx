@@ -25,8 +25,6 @@ function MainScreen() {
       console.log(prodAllFromBack())
     },[]);
 
-
-
     // const products = async () =>{
     //   console.log('555')
 

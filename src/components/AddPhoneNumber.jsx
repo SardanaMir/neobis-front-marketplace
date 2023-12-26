@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Timer from './Timer';
 import { checkPhoneNumber, changeProfileInfo } from '../api';
+import { verifyCode } from '../api';
 
 function AddPhoneNumber({setisModalOpen, isModalOpen, userData, setUserData}){
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -14,7 +15,7 @@ function AddPhoneNumber({setisModalOpen, isModalOpen, userData, setUserData}){
         e.preventDefault();
         const input = e.target.value;
         const formattedInput = phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
-        setUserData({ ...userData, "phone_number": formattedInput, "password": "Qazwsx1234!"});
+        setUserData({ ...userData, "phone_number": formattedInput, "profile_image": null});
         console.log(userData);
         //endpoint на проверку номера телефона 
         try{
@@ -24,27 +25,22 @@ function AddPhoneNumber({setisModalOpen, isModalOpen, userData, setUserData}){
         }catch(err){
             // setCheckPhonNumError(true)
             console.log(err)
-
         }
     }
     //проверка кода
-    const handleChange = (e) =>{
+    const handleChange = async (e) =>{
         e.preventDefault()
         const input = e.target.value;
         const formattedInput = input.replace(/[^\d]/g, '');
         setCode(formattedInput);
         try{
+            const response = await verifyCode(code)
+            setisModalOpen(false)
 
         }catch(err){
             // setCodeError(true)
+            console.log(err)
         }
-    }
-    
-
-    function getCookie(name) {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop().split(';').shift();
     }
 
     return (
@@ -60,7 +56,7 @@ function AddPhoneNumber({setisModalOpen, isModalOpen, userData, setUserData}){
                 <form className='flex flex-col mt-2	items-center'>
                     <input type="text" value={code} onChange={handleChange} placeholder='oooo' maxLength={4} className="w-20 text-3xl tracking-widest block focus:outline-none"/>
                 </form>
-                <Timer/>
+                <Timer userData={userData} setUserData={setUserData} code={code}/>
                 {codeError && (<p className='text-base text-red-500 font-semibold text-center'>Неверный код</p>)}
             </div>
         </div>

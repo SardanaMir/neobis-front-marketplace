@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
+import { verifyCode } from '../api';
 
-const Timer = () => {
+const Timer = ({setUserData, userData, code}) => {
     const [timeLeft, setTimeLeft] = useState(59);
     const [linkVisible, setLinkVisible] = useState(false);
   
@@ -13,8 +14,18 @@ const Timer = () => {
       }
     }, [timeLeft]);
     
-    const handleSendCode = (e) =>{
-        //endpoint на повторную отправку письма на почту
+    const handleSendCode = async (e) =>{
+      //endpoint на повторную отправку письма на почту
+      console.log("timer", userData)
+      e.preventDefault()
+
+      try{
+        const response = await verifyCode(code)
+        setisModalOpen(false)
+      }catch(err){
+        // setCodeError(true)
+        console.log(err)
+      }
     }
 
     return (

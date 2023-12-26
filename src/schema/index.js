@@ -23,4 +23,8 @@ export const basicSchema = yup.object().shape({
   .string()
   .oneOf([yup.ref("password"), null], "Пароль не совпадает")
   .required("Введите пароль"),
+
+  DOB: yup
+  .string()
+  .matches(/(19|20)\d\d-(0\d|1[012])-(0\d|1\d|2\d|3[01])/, 'Неверный формат даты. Используйте YYYY-MM-DD.')
 });

@@ -40,12 +40,12 @@ export const register = async (data) =>{
 }
 
 export const allProducts = async () =>{
-    const res = await API.get('products/all/')
+    const res = await API.get('products/all')
     return res.data
 }
 
 export const addNewItem = async () =>{
-    const res = await API.get('products/all/')
+    const res = await API.get('products/all')
     return res.data
 }
 export const profileInfo = async () =>{
@@ -60,5 +60,9 @@ export const changeProfileInfo = async (data) =>{
 
 export const checkPhoneNumber = async (data) =>{
   const res = await API.put('api/profile/', data)
+  return res.data
+}
+export const verifyCode = async (data) =>{
+  const res = await API.post('api/enter-verification-code/', data)
   return res.data
 }
