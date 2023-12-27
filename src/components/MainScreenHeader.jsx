@@ -1,13 +1,17 @@
 import {Link} from 'react-router-dom';
 import {useSelector} from 'react-redux';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import AddItemForm from './AddItemFrom';
 
 function MainScreenHeader(){
     const [isModalOpen, setisModalOpen] = useState(false);
     const [open, setOpen] = useState(false);
     const [addItem, setAddItem] = useState(false);
-    const {username} = useSelector(state => state.user);
+    const {username, first_name} = useSelector(state => state.user);
+    
+    useEffect(()=>{
+        
+    },[first_name, username])
 
     return (    
         <header className="flex justify-between items-center">
@@ -19,7 +23,7 @@ function MainScreenHeader(){
                 <button onClick={() => setisModalOpen(true)} className='w-80 h-11 bg-indigo-600 text-white rounded-2xl focus:outline-none'>Подать заявление</button>
                 <div className='flex gap-x-3 items-center cursor-pointer'>
                     <div>
-                        <p className='text-lg font-semibold'>Сардана</p>
+                        <p className='text-lg font-semibold'>{first_name}</p>
                         <p className='text-lg font-normal'>{username}</p>
                     </div>
                     <div onClick={()=>setOpen(!open)} className='w-16 h-16 flex bg-indigo-600 rounded-full justify-center items-center relative'>

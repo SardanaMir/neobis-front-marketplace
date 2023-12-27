@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {removeUser} from '../redux/slices/userSlice'
 
@@ -9,7 +9,7 @@ function Navbar() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const {username, firstName} = useSelector(state => state.user);
+    const {username, first_name} = useSelector(state => state.user);
 
     const handleLogout = () => {
         dispatch(removeUser());
@@ -17,7 +17,9 @@ function Navbar() {
         localStorage.removeItem('refreshToken');
         navigate('/login')
     }
+    useEffect(()=>{
 
+    }, [username, first_name])
   return (
     <>
         <div className={isLogout ? 'fixed w-full h-full top-0 bg-black bg-opacity-50' : 'hidden'} onClick={() => setIsLogot(false)}>
@@ -35,7 +37,7 @@ function Navbar() {
                     <img src="src/assets/icons/user.svg" alt="user" />
                 </div>
                 <div>
-                    <p className='text-lg font-semibold'>{firstName}</p>
+                    <p className='text-lg font-semibold'>{first_name}</p>
                     <p className='text-lg font-normal'>{username}</p>
                 </div>
             </Link>

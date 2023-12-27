@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ChangeItemInfoForm from './ChangeItemInfoForm';
+import {deleteItem} from '../api';
 
 function ItemBlockOfMyStore({item, index, setProductCard, setisModalOpen}){
     const [isOpen, setIsOpen] = useState(false);
@@ -16,7 +17,6 @@ function ItemBlockOfMyStore({item, index, setProductCard, setisModalOpen}){
       setPopupPosition({ x: e.clientX, y: e.clientY });
       setPopupVisible(!popupVisible);
     };
-  
     const handleClose = () => {
       setPopupVisible(false);
     };
@@ -26,26 +26,29 @@ function ItemBlockOfMyStore({item, index, setProductCard, setisModalOpen}){
         //вызываем модальное окно
         setProduct(data)
         setSelectedProduct(true)
+        console.log(item[2].photo_image)
     }
 
-    const handleDeleteItem = (data) =>{
+    const handleDeleteItem = async (item) =>{
         setPopupVisible(false);
         //получаем данные товара и отправляем на endpoint на удаление
-        console.log(data)
-        setChangeProductInfo(true)
+        console.log(item)
+        // setChangeProductInfo(true);
+        const response = await deleteItem(item.id)
+        console.log(response)
     }
 
     useEffect(()=>{
         
-    })
+    },[])
 
     return(
         <>
         <div className="flex flex-col justify-between h-full" id={item.id}>
-            <img src={item.imgURL} alt={item.title} onClick={()=> (setProductCard(item), setisModalOpen(true))}/>
+            <img src={item.product_image} alt={item.title} onClick={()=> (setProductCard(item), setisModalOpen(true))}/>
             <div>
                 <p className='text-sm font-semibold'>{item.title}</p>
-                <p className='text-sm text-indigo-600 font-semibold'>{item.price}<span>{item.currency}</span></p>
+                <p className='text-sm text-indigo-600 font-semibold'>{item.price}<span>$</span></p>
                 <div className='flex justify-between'>
                     <div className='flex items-center'>
                         <img src="src/assets/icons/heart-white.svg" alt="" />

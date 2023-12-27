@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import Navbar from '../components/Navbar';
 import BackToMain from '../components/BackToMain';
-import { useAuth } from '../hooks/use-Auth'; 
 import AddPhoneNumber from '../components/AddPhoneNumber'
-import { profileInfo, changeProfileInfo } from '../api';
-import { basicSchema } from '../schema';
+import { profileInfo, changeProfileInfo, myProducts } from '../api';
+import { setUser } from '../redux/slices/userSlice';
 
 function Profile() {
     const [username, setUsername] = useState('')
     const [success, setSuccess] = useState('');
     const [isModalOpen, setisModalOpen] = useState(false);
+    const dispatch = useDispatch();
 
     const [userData, setUserData] = useState({
         first_name: '',
@@ -22,34 +22,38 @@ function Profile() {
         profile_image: ''
     });
 
-    const fetchUserData = async () => {
+    const getUserInfo = async () => {
         try {
-            const response = await profileInfo(); 
-            setUserData(response);
+            const userInfo = await profileInfo(); 
+            console.log(userInfo)
+            setUserData(userInfo);
+            const token = localStorage.getItem('accessToken');
+            addUserData(userInfo.last_name, userInfo.first_name, userInfo.phone_number, userInfo.email, userInfo.username, token);
         } catch (error) {
             console.error('Ошибка при загрузке данных пользователя', error);
         }
     };
     useEffect(() => {
-        // Загрузка данных пользователя при монтировании компонента
-        fetchUserData(); // Реализуйте эту функцию для загрузки данных пользователя
+        getUserInfo(); 
     }, []);
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
         try {
             const response = await changeProfileInfo(userData);
-            console.log(response)
         } catch (error) {
             console.error('Ошибка при обновлении данных пользователя', error);
         }
     };
-    // 
+    
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setUserData({ ...userData, [name]: value, profile_image: null});
-        console.log(userData)
     };
+
+    function addUserData(last_name, first_name, phone_number, email, username, token){
+        dispatch(setUser({last_name, first_name, phone_number, email, username, token}));
+    }
     // src/assets/icons/user.svg
     return (
     <div className='flex h-screen'>

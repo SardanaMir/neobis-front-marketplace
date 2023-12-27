@@ -5,8 +5,8 @@ const initialState = {
     token: null,
     email: null,
     isAuth: false,
-    firstName: null,
-    lastName: null,
+    first_name: null,
+    last_name: null,
 }
 
 const userSlice = createSlice({
@@ -17,8 +17,8 @@ const userSlice = createSlice({
             state.username = action.payload.username;
             state.token = action.payload.token;
             state.email = action.payload.email;
-            state.firstName = action.payload.firstName;
-            state.lastName = action.payload.lastName;
+            state.first_name = action.payload.first_name;
+            state.last_name = action.payload.last_name;
             if(action.payload.token){
                 state.isAuth = true;
             }else{
@@ -30,8 +30,8 @@ const userSlice = createSlice({
             state.token = null;
             state.email = null;
             state.isAuth = false;
-            state.firstName = null;
-            state.lastName = null;
+            state.first_name = null;
+            state.last_name = null;
         },
     },
 

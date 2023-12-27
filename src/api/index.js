@@ -44,9 +44,13 @@ export const allProducts = async () =>{
     return res.data
 }
 
-export const addNewItem = async () =>{
-    const res = await API.get('products/all')
-    return res.data
+export const addNewItem = async (formData) =>{
+  const res = await API.post('products/add/', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data' // Указываем Content-Type для FormData
+    }
+  });
+  return res.data
 }
 export const profileInfo = async () =>{
   const res = await API.get('api/profile/')
@@ -64,5 +68,14 @@ export const checkPhoneNumber = async (data) =>{
 }
 export const verifyCode = async (data) =>{
   const res = await API.post('api/enter-verification-code/', data)
+  return res.data
+}
+export const myProducts = async () =>{
+  const res = await API.get('products/my-list/')
+  return res.data
+}
+
+export const deleteItem = async (id) =>{
+  const res = await API.delete(`products/${id}/`)
   return res.data
 }

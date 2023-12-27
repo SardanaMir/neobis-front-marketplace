@@ -33,7 +33,6 @@ function Register() {
     const userInfo = {'username': values.username, 'email': values.email};
     addUserData(values.username, values.email);
     navigate('/password');
-    console.log(userInfo);
   }
 
   function addUserData(username, email){
@@ -55,7 +54,6 @@ function Register() {
         <div>
         <input 
           type="text" 
-          // ref={userRef} 
           value={values.username}
           onChange={handleChange} 
           onBlur={handleBlur}
