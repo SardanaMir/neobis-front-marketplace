@@ -17,7 +17,6 @@ function AddItemForm({setisModalOpen, isModalOpen}){
         formData.append('title', value.title);
         formData.append('short_description', value.short_description);
         formData.append('description', value.description);
-
         try{
             const response = await addNewItem(formData)
             console.log(response)
@@ -25,9 +24,9 @@ function AddItemForm({setisModalOpen, isModalOpen}){
             setisModalOpen(false);
             toast.success('Товар добавлен');
         }catch(err){
-            toast.error(err.message)
-            console.log(err)
-
+            setSuccess(true);
+            toast.error(err.message);
+            console.log(err);
         }
     }
 

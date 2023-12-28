@@ -19,18 +19,18 @@ function Login() {
 
   const onSubmit = async () =>{
     const userInfo = {'username': values.username, 'password': values.password};
-    console.log(userInfo)
     try{
     const response = await login(userInfo);
     console.log(response)
     const accessToken = response?.access_token;
     const refreshToken = response?.refresh_token;
-    const email = response?.user?.email;
-    const username = response?.user?.username;
-    const lastName = response?.user?.last_name;
-    const firstName = response?.user?.first_name;
+    // const email = response?.user?.email;
+    // const username = response?.user?.username;
+    // const lastName = response?.user?.last_name;
+    // const firstName = response?.user?.first_name;
 
-    addUserData(username, accessToken, email, lastName, firstName);
+    // addUserData(username, accessToken, email, lastName, firstName);
+    addUserData(accessToken);
 
     localStorage.setItem('accessToken', accessToken);
     localStorage.setItem('refreshToken', refreshToken);
@@ -40,8 +40,8 @@ function Login() {
   }catch(err){
       setRequestError(true)
       setErrMsg(true)
-      console.log(err)          
-      toast.error(err.message)
+      console.log(err)
+      toast.error('Ошибка! Проверьте логин и пароль')
       // if(!err?.response){
       //   setErrMsg('No server response')
       // }else if(err.response?.status === 400){
@@ -72,21 +72,18 @@ function Login() {
   useEffect(() =>{
     userRef.current.focus();
   }, []);
-  
-  // useEffect(() =>{
-  // }, [username, pwd]);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
 
-  function addUserData(username, token, email, lastName, firstName){
-    dispatch(setUser({username, token, email, lastName, firstName}));
+  function addUserData(token){
+    dispatch(setUser({token}));
   }
 
   return (
-    <section className='flex'>
-      <img className='h-full' src='src/assets/img/bg.jpg' alt="фоновый рисунок" />
+    <section className='flex max-h-screen items-center'>
+      <img className='max-h-screen' src='src/assets/img/bg.jpg' alt="фоновый рисунок" />
       <div className='block mx-auto my-0 pt-2'>
         {
         requestError &&
@@ -103,7 +100,7 @@ function Login() {
         theme="light"
         />
         }
-        <form onSubmit={handleSubmit} className='mt-64'>
+        <form onSubmit={handleSubmit} className=''>
         <div>
           <input 
           type="text" 
@@ -134,7 +131,7 @@ function Login() {
         <button type='submit' className='loginBtn w-80 h-11 bg-indigo-600	text-white rounded-full flex justify-center	items-center mt-20' 
         disabled={isSubmitting}>Войти</button>
         </form>
-        <Link to={'/register'} className='w-80 bg-white text-indigo-600 block mx-auto my-0 mt-44'>Зарегистрироваться</Link>
+        <Link to={'/register'} className='w-80 bg-white text-indigo-600 block text-center mx-auto my-0 mt-24'>Зарегистрироваться</Link>
       </div>
     </section>
   )

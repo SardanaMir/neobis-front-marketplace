@@ -28,6 +28,7 @@ const productsSlice = createSlice({
         productToUpdate.price = newPrice;
       }
     },
+
   },
 //   extraReducers: (builder) => {
 //     builder.addCase(fetchItems.fulfilled, (state, action) => {

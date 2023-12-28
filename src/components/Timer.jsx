@@ -1,10 +1,15 @@
 import React, {useState, useEffect} from 'react'
-import { verifyCode } from '../api';
+import { verifyCode, checkPhoneNumber } from '../api';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
-const Timer = ({setUserData, userData, code}) => {
+const Timer = ({code}) => {
     const [timeLeft, setTimeLeft] = useState(59);
     const [linkVisible, setLinkVisible] = useState(false);
-  
+    const userData = useSelector(state => state.user);
+    const [success, setSuccess] = useState(false);
+
     useEffect(() => {
       if (timeLeft > 0) {
         const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
@@ -15,16 +20,15 @@ const Timer = ({setUserData, userData, code}) => {
     }, [timeLeft]);
     
     const handleSendCode = async (e) =>{
-      //endpoint на повторную отправку письма на почту
-      console.log("timer", userData)
       e.preventDefault()
-
+      console.log("timer", userData)
       try{
-        const response = await verifyCode(code)
-        setisModalOpen(false)
+        const response = await checkPhoneNumber(userData);
+        console.log(response)
+        setSuccess(true);
+        toast.success('Письмо отправлено');
       }catch(err){
-        // setCodeError(true)
-        console.log(err)
+        toast.error('Ошибка! Попробуйте позже');
       }
     }
 

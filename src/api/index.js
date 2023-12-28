@@ -62,8 +62,12 @@ export const changeProfileInfo = async (data) =>{
   return res.data
 }
 
-export const checkPhoneNumber = async (data) =>{
-  const res = await API.put('api/profile/', data)
+export const checkPhoneNumber = async (formData) =>{
+  const res = await API.put('api/profile/', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data' // Указываем Content-Type для FormData
+    }
+  })
   return res.data
 }
 export const verifyCode = async (data) =>{
@@ -77,5 +81,10 @@ export const myProducts = async () =>{
 
 export const deleteItem = async (id) =>{
   const res = await API.delete(`products/${id}/`)
+  return res.data
+}
+
+export const changeProductInfo = async (id, data) =>{
+  const res = await API.patch(`products/${id}/`, data)
   return res.data
 }

@@ -1,17 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import ChangeItemInfoForm from './ChangeItemInfoForm';
 import {deleteItem} from '../api';
+import { removeItem } from '../redux/slices/myProductsSlice';
 
 function ItemBlockOfMyStore({item, index, setProductCard, setisModalOpen}){
     const [isOpen, setIsOpen] = useState(false);
     const [popupVisible, setPopupVisible] = useState(false);
     const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
-    const [changeProductInfo, setChangeProductInfo] = useState()
-    // const [isModalOpen, setisModalOpen] = useState(false);
     const [product, setProduct] = useState();
     const [selectedProduct, setSelectedProduct] = useState(false);
+    const actionRef = useRef()
 
+    const dispatch = useDispatch();
 
     const handleClick = (e) => {
       setPopupPosition({ x: e.clientX, y: e.clientY });
@@ -26,25 +28,30 @@ function ItemBlockOfMyStore({item, index, setProductCard, setisModalOpen}){
         //вызываем модальное окно
         setProduct(data)
         setSelectedProduct(true)
-        console.log(item[2].photo_image)
     }
 
     const handleDeleteItem = async (item) =>{
         setPopupVisible(false);
         //получаем данные товара и отправляем на endpoint на удаление
-        console.log(item)
         // setChangeProductInfo(true);
         const response = await deleteItem(item.id)
         console.log(response)
+        dispatch(removeItem(item.id))
     }
-
+    //закрытие popup при нажатии на другую область окна
     useEffect(()=>{
-        
-    },[])
+        const handleClickOutside = (event) =>{
+            if(!event.composedPath().includes(actionRef.current)){
+                setPopupVisible(false);
+            }
+        }
+        document.body.addEventListener('click', handleClickOutside)
+        return () => document.body.removeEventListener('click', handleClickOutside)
+    }, [])
 
     return(
         <>
-        <div className="flex flex-col justify-between h-full" id={item.id}>
+        <div ref={actionRef} className="flex flex-col justify-between h-full" id={item.id}>
             <img src={item.product_image} alt={item.title} onClick={()=> (setProductCard(item), setisModalOpen(true))}/>
             <div>
                 <p className='text-sm font-semibold'>{item.title}</p>

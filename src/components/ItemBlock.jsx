@@ -31,13 +31,13 @@ function ItemBlock({item, index, setProductCard, setisModalOpen}){
 
     return(
         <div className="flex flex-col justify-between h-full" id={item.id}>
-            <img src={item.imgURL} alt={item.title} onClick={()=> (setProductCard(item), setisModalOpen(true))}/>
+            <img src={item.product_image} alt={item.title} onClick={()=> (setProductCard(item), setisModalOpen(true))}/>
             <div>
                 <p className='text-sm font-semibold'>{item.title}</p>
                 <p className='text-sm text-indigo-600 font-semibold'>{item.price}<span>$</span></p>
                 <div className='flex items-center'>
                     <img onClick={() => likeItem(index, item)} src={likedItems[index] ? "src/assets/icons/heart-red.svg" : "src/assets/icons/heart-white.svg"}/>
-                    <p className='text-xs text-gray-300'>100</p>
+                    <p className='text-xs text-gray-300'>0</p>
                 </div>
             </div>
         </div>

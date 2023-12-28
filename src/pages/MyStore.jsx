@@ -12,16 +12,23 @@ function MyStore() {
     const [productCard, setProductCard] = useState('');
     const dispatch = useDispatch();
 
-    const store = async () =>{
-        const response = await myProducts()
-        dispatch(addMyStore(response));
-    }
+    // const store = async () =>{
+    //     const response = await myProducts()
+    //     dispatch(addMyStore(response));
+    // }
+    // useEffect(()=>{
+    //     store
+    // }, [products]);
+    
+    useEffect(() => {
+        const store = async () => {
+            const response = await myProducts();
+            dispatch(addMyStore(response));
+        };
+        store();
+    }, []);
 
     const products = useSelector(state => state.myProducts.items);
-
-    useEffect(()=>{
-        store()
-    }, [products]);
 
   return (
     <>

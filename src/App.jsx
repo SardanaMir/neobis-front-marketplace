@@ -8,7 +8,7 @@ import Profile from './pages/Profile';
 import MyStore from './pages/MyStore'
 import MainScreen from './pages/MainScreen';
 import FavoriteItems from './pages/FavoriteItems';
-import Password from './Password'
+import Password from './pages/Password'
 import './App.css'
 
 function App() {
@@ -19,7 +19,6 @@ function App() {
     if(!isAuth){
       navigate('/login')
     }
-    // console.log(isAuth)
   },[isAuth])
 
   return (

@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import Timer from './Timer';
-import { checkPhoneNumber, changeProfileInfo } from '../api';
-import { verifyCode } from '../api';
+import { checkPhoneNumber, verifyCode } from '../api';
+import debounce from 'lodash.debounce';
+import { useSelector, useDispatch } from 'react-redux';
+import { setUser } from '../redux/slices/userSlice';
 
 function AddPhoneNumber({setisModalOpen, isModalOpen, userData, setUserData}){
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -9,45 +11,56 @@ function AddPhoneNumber({setisModalOpen, isModalOpen, userData, setUserData}){
     const [code, setCode] = useState('');
     const [checkPhonNumError, setCheckPhonNumError] = useState(false)
     const [codeError, setCodeError] = useState(false)
-    // console.log(userData);
+    const dispatch = useDispatch();
+
+    const updateCode = useCallback(
+        debounce( async (code, phone_number)=>{
+            const data = {"verification_code": code,"phone_number": phone_number }
+            const response = await verifyCode(data)
+            console.log(response)
+            // try{
+            //     console.log(response)
+            //     setisModalOpen(false)
+            // }catch(err){
+            //     // setCodeError(true)
+            //     console.log(err)
+            //     setisModalOpen(true)
+            // }
+        }, 1000),[]
+    )
 
     const handlePhoneNumber = async (e) =>{
         e.preventDefault();
-        const input = e.target.value;
-        const formattedInput = phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
-        setUserData({ ...userData, "phone_number": formattedInput, "profile_image": null});
-        console.log(userData);
-        //endpoint на проверку номера телефона 
+        const phone_number = phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+        setUserData({ ...userData, "phone_number": phone_number, "profile_image": null});
+        console.log(phone_number)
+        const token = localStorage.getItem('accessToken')
+        addUserData(userData.last_name, userData.first_name, phone_number, userData.email, userData.username, token);
         try{
             const response = await checkPhoneNumber(userData);
             console.log(response);
             setSuccess(true)
         }catch(err){
-            // setCheckPhonNumError(true)
-            console.log(err)
+            toast.error('Ошибка! Попробуйте позже');
         }
     }
-    //проверка кода
     const handleChange = async (e) =>{
         e.preventDefault()
-        const input = e.target.value;
-        const formattedInput = input.replace(/[^\d]/g, '');
-        setCode(formattedInput);
-        try{
-            const response = await verifyCode(code)
-            setisModalOpen(false)
-
-        }catch(err){
-            // setCodeError(true)
-            console.log(err)
-        }
+        const code = e.target.value;
+        const formattedCode = code.replace(/[^\d]/g, '');
+        setCode(formattedCode);
+        updateCode(code, phoneNumber)
     }
-
+    function addUserData(last_name, first_name, phone_number, email, username, token){
+        dispatch(setUser({last_name, first_name, phone_number, email, username, token}));
+    }
     return (
         <>
         {success ? (
         <div className={isModalOpen ? 'fixed w-full	h-full top-0 left-0	bg-black bg-opacity-50 ' : 'hidden'}>
+            
             <div className='w-96 min-h-fit bg-white p-5 rounded-3xl flex flex-col items-center top-2/4 left-2/4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
+            <img onClick={() => {setisModalOpen(false), setSuccess(false), setPhoneNumber(''), setCode('')}}  className="absolute top-3 right-3 cursor-pointer" src="src/assets/icons/close.svg" alt="close" />
                 <h2 className='text-2xl	font-bold'>Изменить номер телефона</h2>
                 <div className='w-20 h-20 flex bg-indigo-600 rounded-2xl justify-center items-center mt-6 shadow-xl'>
                     <img src="src/assets/icons/call.svg" alt="" />
@@ -62,7 +75,8 @@ function AddPhoneNumber({setisModalOpen, isModalOpen, userData, setUserData}){
         </div>
         ) : (
         <div className={isModalOpen ? 'fixed w-full	h-full top-0 left-0	bg-black bg-opacity-50' : 'hidden'}>
-            <div className='w-96 min-h-fit bg-white p-5 rounded-3xl flex flex-col items-center top-2/4 left-2/4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
+            <div className='w-96 min-h-fit bg-white p-8 rounded-3xl flex flex-col items-center top-2/4 left-2/4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
+                <img onClick={() => {setisModalOpen(false), setSuccess(false), setPhoneNumber(''), setCode('')}}  className="absolute top-3 right-3 cursor-pointer" src="src/assets/icons/close.svg" alt="close" />
                 <h2 className='text-2xl	font-bold'>Изменить номер телефона</h2>
                 <div className='w-20 h-20 flex bg-indigo-600 rounded-2xl justify-center items-center mt-6 shadow-xl'>
                     <img src="src/assets/icons/call.svg" alt="" />
@@ -73,7 +87,7 @@ function AddPhoneNumber({setisModalOpen, isModalOpen, userData, setUserData}){
                     <input 
                     type="text" 
                     name="phone_number"
-                    value={phoneNumber} 
+                    // value={phoneNumber} 
                     onChange={(e)=> setPhoneNumber(e.target.value)} 
                     placeholder='(000) 000-0000' 
                     minLength={10} 

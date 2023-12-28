@@ -22,7 +22,7 @@ export const basicSchema = yup.object().shape({
   confirmPassword: yup
   .string()
   .oneOf([yup.ref("password"), null], "Пароль не совпадает")
-  .required("Введите пароль"),
+  .required("Введите повторно пароль"),
 
   DOB: yup
   .string()

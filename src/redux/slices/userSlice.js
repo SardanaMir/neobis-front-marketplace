@@ -7,6 +7,7 @@ const initialState = {
     isAuth: false,
     first_name: null,
     last_name: null,
+    DOB: null
 }
 
 const userSlice = createSlice({
@@ -19,6 +20,8 @@ const userSlice = createSlice({
             state.email = action.payload.email;
             state.first_name = action.payload.first_name;
             state.last_name = action.payload.last_name;
+            state.phone_number = action.payload.phone_number;
+            state.DOB = action.payload.DOB;
             if(action.payload.token){
                 state.isAuth = true;
             }else{

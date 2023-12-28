@@ -8,7 +8,6 @@ function Navbar() {
     const [isLogout, setIsLogot] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
     const {username, first_name} = useSelector(state => state.user);
 
     const handleLogout = () => {
