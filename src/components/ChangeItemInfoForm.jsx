@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import {updateProduct} from '../redux/slices/myProductsSlice';
-import mystore from '../mystore.json'
 import {changeProductInfo} from '../api';
 
 const ChangeItemInfoForm = ({setIsOpen, isOpen, product}) => {
@@ -9,16 +8,10 @@ const ChangeItemInfoForm = ({setIsOpen, isOpen, product}) => {
   const [editingProduct, setEditingProduct] = useState(product);
   const dispatch = useDispatch();
 
-  useEffect(()=>{
-    console.log(product)
-  },[])
-
-  const items = useSelector(state=>state.products.items)
-  // console.log(items)
+  const items = useSelector(state=>state.products.items);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value)
     setEditingProduct({ ...editingProduct, [name]: value });
   };
 
@@ -31,23 +24,18 @@ const ChangeItemInfoForm = ({setIsOpen, isOpen, product}) => {
     const newShortDescription = editingProduct.short_description;
     const newDescription = editingProduct.description;
 
-    console.log(editingProduct.price, editingProduct.title, editingProduct.short_description, editingProduct.description)
-    //тут отправляем новые данные в бэк и toolkit
     dispatch(updateProduct({ id: editingProduct.id, newPrice, newTitle, newShortDescription, newDescription }));
 
     const formData = new FormData();
-    // formData.append('product_image', selectedFile[0]);
     formData.append('price', editingProduct.price);
     formData.append('title', editingProduct.title);
     formData.append('short_description', editingProduct.short_description);
     formData.append('description', editingProduct.description);
     try{
-      const response = await changeProductInfo(editingProduct.id, formData);
-      console.log(response);
+      await changeProductInfo(editingProduct.id, formData);
     }catch(err){
       console.log(err)
     }
-    
   };
 
   return (

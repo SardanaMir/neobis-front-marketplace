@@ -2,13 +2,12 @@ import {Link} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import React, {useEffect, useState, useRef} from 'react';
 import AddItemForm from './AddItemFrom';
-import { profileInfo, changeProfileInfo, myProducts } from '../api';
+import { profileInfo } from '../api';
 import { setUser } from '../redux/slices/userSlice';
 
 function MainScreenHeader(){
     const [isModalOpen, setisModalOpen] = useState(false);
     const [open, setOpen] = useState(false);
-    const [addItem, setAddItem] = useState(false);
     const {username, first_name} = useSelector(state => state.user);
     const dispatch = useDispatch();
     const actionRef = useRef()
@@ -25,7 +24,6 @@ function MainScreenHeader(){
         const getUserInfo = async () => {
             try {
                 const userInfo = await profileInfo(); 
-                console.log(userInfo)
                 setUserData(userInfo);
                 const token = localStorage.getItem('accessToken');
                 addUserData(userInfo.last_name, userInfo.first_name, userInfo.phone_number, userInfo.email, userInfo.username, userInfo.DOB, token);

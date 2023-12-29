@@ -2,43 +2,40 @@ import React, { useState, useCallback } from 'react';
 import Timer from './Timer';
 import { checkPhoneNumber, verifyCode } from '../api';
 import debounce from 'lodash.debounce';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setUser } from '../redux/slices/userSlice';
+import { toast } from 'react-toastify';
 
 function AddPhoneNumber({setisModalOpen, isModalOpen, userData, setUserData}){
     const [phoneNumber, setPhoneNumber] = useState('');
     const [success, setSuccess] = useState(false)
     const [code, setCode] = useState('');
-    const [checkPhonNumError, setCheckPhonNumError] = useState(false)
-    const [codeError, setCodeError] = useState(false)
     const dispatch = useDispatch();
 
     const updateCode = useCallback(
-        debounce( async (code, phone_number)=>{
-            const data = {"verification_code": code,"phone_number": phone_number }
-            const response = await verifyCode(data)
-            console.log(response)
-            // try{
-            //     console.log(response)
-            //     setisModalOpen(false)
-            // }catch(err){
-            //     // setCodeError(true)
-            //     console.log(err)
-            //     setisModalOpen(true)
-            // }
+        debounce( async (code, phoneNumber)=>{
+            const data = {"verification_code": code,"phone_number": phoneNumber }
+            try{
+                await verifyCode(data)
+                setisModalOpen(false)
+                toast.success('Номер телефона сохранен')
+            }catch(err){
+                setisModalOpen(true)
+                toast.success('Неправильный код')
+            }
         }, 1000),[]
     )
 
     const handlePhoneNumber = async (e) =>{
         e.preventDefault();
-        const phone_number = phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
-        setUserData({ ...userData, "phone_number": phone_number, "profile_image": null});
-        console.log(phone_number)
+        console.log(phoneNumber)
+        setUserData({ ...userData, "phone_number": phoneNumber, "profile_image": undefined});
+        setPhoneNumber(phoneNumber)
+        console.log(phoneNumber)
         const token = localStorage.getItem('accessToken')
-        addUserData(userData.last_name, userData.first_name, phone_number, userData.email, userData.username, token);
+        addUserData(userData.last_name, userData.first_name, phoneNumber, userData.email, userData.username, token);
         try{
-            const response = await checkPhoneNumber(userData);
-            console.log(response);
+            await checkPhoneNumber(userData);
             setSuccess(true)
         }catch(err){
             toast.error('Ошибка! Попробуйте позже');
@@ -70,7 +67,6 @@ function AddPhoneNumber({setisModalOpen, isModalOpen, userData, setUserData}){
                     <input type="text" value={code} onChange={handleChange} placeholder='oooo' maxLength={4} className="w-20 text-3xl tracking-widest block focus:outline-none"/>
                 </form>
                 <Timer userData={userData} setUserData={setUserData} code={code}/>
-                {codeError && (<p className='text-base text-red-500 font-semibold text-center'>Неверный код</p>)}
             </div>
         </div>
         ) : (
@@ -87,14 +83,12 @@ function AddPhoneNumber({setisModalOpen, isModalOpen, userData, setUserData}){
                     <input 
                     type="text" 
                     name="phone_number"
-                    // value={phoneNumber} 
                     onChange={(e)=> setPhoneNumber(e.target.value)} 
                     placeholder='(000) 000-0000' 
                     minLength={10} 
                     maxLength={10} 
-                    className="text-3xl w-52 focus:outline-none" />
-                    {checkPhonNumError && (<p className='text-base text-red-500 font-semibold text-center'>Данный номер уже зарегистрирован</p>)}
-                    
+                    className="text-3xl w-52 focus:outline-none"      
+                    />
                     <button 
                     onClick={handlePhoneNumber}  
                     className='w-80 h-11 bg-indigo-600 text-white rounded-2xl focus:outline-none mt-6'>Далее</button>

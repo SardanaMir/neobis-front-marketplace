@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
-import { verifyCode, checkPhoneNumber } from '../api';
-import { useDispatch, useSelector } from 'react-redux';
+import { checkPhoneNumber } from '../api';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
@@ -21,10 +21,8 @@ const Timer = ({code}) => {
     
     const handleSendCode = async (e) =>{
       e.preventDefault()
-      console.log("timer", userData)
       try{
-        const response = await checkPhoneNumber(userData);
-        console.log(response)
+        await checkPhoneNumber(userData);
         setSuccess(true);
         toast.success('Письмо отправлено');
       }catch(err){

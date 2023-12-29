@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {removeUser} from '../redux/slices/userSlice'
 
-
 function Navbar() {
     const [isLogout, setIsLogot] = useState(false);
     const navigate = useNavigate();

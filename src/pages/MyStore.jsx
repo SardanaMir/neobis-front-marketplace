@@ -11,14 +11,6 @@ function MyStore() {
     const [isModalOpen, setisModalOpen] = useState(false);
     const [productCard, setProductCard] = useState('');
     const dispatch = useDispatch();
-
-    // const store = async () =>{
-    //     const response = await myProducts()
-    //     dispatch(addMyStore(response));
-    // }
-    // useEffect(()=>{
-    //     store
-    // }, [products]);
     
     useEffect(() => {
         const store = async () => {

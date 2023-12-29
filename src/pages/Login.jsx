@@ -1,5 +1,4 @@
 import {useState, useRef, useEffect} from 'react';
-import {useForm} from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../redux/slices/userSlice';
 import {Link, useNavigate} from 'react-router-dom';
@@ -19,44 +18,23 @@ function Login() {
 
   const onSubmit = async () =>{
     const userInfo = {'username': values.username, 'password': values.password};
+    localStorage.clear()
     try{
     const response = await login(userInfo);
-    console.log(response)
     const accessToken = response?.access_token;
     const refreshToken = response?.refresh_token;
-    // const email = response?.user?.email;
-    // const username = response?.user?.username;
-    // const lastName = response?.user?.last_name;
-    // const firstName = response?.user?.first_name;
-
-    // addUserData(username, accessToken, email, lastName, firstName);
     addUserData(accessToken);
-
     localStorage.setItem('accessToken', accessToken);
     localStorage.setItem('refreshToken', refreshToken);
-
     navigate('/');
-
   }catch(err){
       setRequestError(true)
       setErrMsg(true)
-      console.log(err)
       toast.error('Ошибка! Проверьте логин и пароль')
-      // if(!err?.response){
-      //   setErrMsg('No server response')
-      // }else if(err.response?.status === 400){
-      //   setErrMsg('Missing username or password');
-      // }else if (err.response?.status === 401){
-      //   setErrMsg('Unauthorized')
-      // }else {
-      //   setErrMsg('Неверный логин или пароль')
-      // }
     }
   }
   const {
     values,
-    errors,
-    touched,
     isSubmitting,
     handleBlur,
     handleChange,

@@ -1,17 +1,20 @@
-import {useState, useRef, useEffect} from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import {useState} from 'react';
 import Navbar from '../components/Navbar';
 import ShowCardItem from '../components/ShowCardItem';
 import ItemBlock from '../components/ItemBlock';
 import BackToMain from '../components/BackToMain';
+import { useSelector } from 'react-redux';
+
 
 function FavoriteItems() {
+    const [isModalOpen, setisModalOpen] = useState(false);
+    const [productCard, setProductCard] = useState('');
+
+    const faveProducts = useSelector(state => state.myProducts.likedItems);
     
   return (
     <>
-    {/* <div className={isModalOpen ? 'fixed w-full	h-full top-0 bg-black bg-opacity-50' : 'hidden'} onClick={() => setisModalOpen(false)}>
-        <ShowCardItem item={productCard}/>
-    </div> */}
+    <ShowCardItem item={productCard} setisModalOpen={setisModalOpen} isModalOpen={isModalOpen}/>
     <div className='flex h-screen'>
         <Navbar/>
         <div className='bg-gray-100 w-8/12'>
@@ -19,16 +22,14 @@ function FavoriteItems() {
                 <BackToMain/>
                 <h2 className='text-lg font-bold text-center'>Понравившиеся</h2>
             </div>
-            {/* <div className='p-10 flex flex-wrap justify-center gap-4'>
-                {likedItems.map((item, index) =>(
+            <div className='p-10 flex flex-wrap justify-center gap-4'>
+                {faveProducts.map((item, index) =>(
                     <div  className='w-40 h-50 bg-white rounded-xl p-6 cursor-pointer flex flex-col justify-between'>
-                        <ItemBlock item={item} index={index} setProductCard={setProductCard} setisModalOpen={setisModalOpen}/>
+                        <ItemBlock item={item} setProductCard={setProductCard} setisModalOpen={setisModalOpen} index={index} />
                     </div>
                 ))}
-            </div> */}
-            {/* <h2>
-                Ничего нет
-            </h2> */}
+            </div>
+
         </div>
     </div>
     </>

@@ -1,10 +1,8 @@
 import {useState, useRef, useEffect} from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {useForm} from 'react-hook-form';
 import {Link} from 'react-router-dom';
 import {useSelector} from 'react-redux'
-import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import { basicSchema } from '../schema';
 import { useNavigate } from 'react-router-dom';
@@ -37,12 +35,9 @@ function Password() {
 });
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const userInfo = {'username': username, 'email': email, 'password1' : values.password, 'password2' : values.confirmPassword};
-    console.log(userInfo)
-    
+    const userInfo = {'username': username, 'email': email, 'password1' : values.password, 'password2' : values.confirmPassword};    
     try{
-      const response = await register(userInfo)
-      console.log(response)
+      await register(userInfo)
       setSuccess(true);
       toast.success('Регистрация прошла успешно');
       setTimeout(() => navigate('/login'), 2000);
@@ -50,18 +45,9 @@ function Password() {
       const refreshToken = response?.refresh_token;
     }
     catch(err){
-      console.log(err)
       setErrMsg(true)
       setRequestError(true);
       toast.error(err.message)
-
-      // if(+err.response?.data.status === 400){
-      //   toast.error(err.response.data.message)
-      // } else if(err?.response){
-      //   toast.error('Произошла ошибка')
-      // } else if(err?.message){
-      //   toast.error('Сервер не отвечает')
-      // }
     }
   };
   useEffect(() =>{
@@ -76,9 +62,7 @@ function Password() {
   };
 
   return (
-
     <section className='grid grid-rows-1 grid-cols-[2fr_310px_3fr_60px]'>
-
       <img className='max-h-screen' src='src/assets/img/bg.jpg' alt="фоновый рисунок" />
       {
         success &&

@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from '../components/Navbar';
 import BackToMain from '../components/BackToMain';
 import AddPhoneNumber from '../components/AddPhoneNumber'
-import { profileInfo, changeProfileInfo, myProducts } from '../api';
+import { changeProfileInfo } from '../api';
 import { setUser } from '../redux/slices/userSlice';
 
 function Profile() {
@@ -22,32 +22,6 @@ function Profile() {
         phone_number,
         username,
     });
-
-    // const [userData, setUserData] = useState({
-    //     first_name: '',
-    //     last_name:'',
-    //     email: '',
-    //     DOB:'',
-    //     phone_number:'',
-    //     username:'',
-    //     profile_image: ''
-    // });
-
-
-    // useEffect(() => {
-    //     const getUserInfo = async () => {
-    //         try {
-    //             const userInfo = await profileInfo(); 
-    //             console.log(userInfo)
-    //             setUserData(userInfo);
-    //             const token = localStorage.getItem('accessToken');
-    //             addUserData(userInfo.last_name, userInfo.first_name, userInfo.phone_number, userInfo.email, userInfo.username, token);
-    //         } catch (error) {
-    //             console.error('Ошибка при загрузке данных пользователя', error);
-    //         }
-    //     };
-    //     getUserInfo(); 
-    // }, []);
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
@@ -102,7 +76,7 @@ function Profile() {
                         </div>
                         <p className='text-base font-semibold text-indigo-600'>Выбрать фотографию</p>
                     </div>
-                    <form onSubmit={handleFormSubmit} enctype="multipart/form-data" className='flex flex-col mt-8'>
+                    <form onSubmit={handleFormSubmit} className='flex flex-col mt-8'>
                         <input 
                         type="text" 
                         id='firstName' 
@@ -145,7 +119,7 @@ function Profile() {
                             value={userData.phone_number}
                             onChange={handleInputChange}
                             className='h-11 pl-4 border-b border-solid border-gray-300 text-gray-600 focus:outline-none rounded-t-xl'
-                            disabled/>
+                            />
                         </div>
                         
                         <input 

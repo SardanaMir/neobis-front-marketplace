@@ -1,5 +1,3 @@
-{/* карточка товара, модальное окно */}
-
 function ShowCardItem({item, setisModalOpen, isModalOpen}){
 
   return(

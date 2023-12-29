@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
 
 const initialState={
-  items: []
+  items: [],
+  likedItems : []
 };
 
 const myProductsSlice = createSlice({
@@ -24,15 +24,17 @@ const myProductsSlice = createSlice({
     },
     removeItem: (state, action) => {
       const id = action.payload;
-      console.log(id)
       const index = state.items.findIndex((product) => product.id === id);
       if (index !== -1) {
         state.items.splice(index, 1)
       }
-    }
+    },
+    likedProductsList: (state, action) =>{
+      state.likedItems = action.payload
+    },
   },
 });
 
-export const { addMyStore, updateProduct, removeItem } = myProductsSlice.actions;
+export const { addMyStore, updateProduct, removeItem, likedProductsList } = myProductsSlice.actions;
 export default myProductsSlice.reducer;
 export const selectProducts = (state) => state.products.items;

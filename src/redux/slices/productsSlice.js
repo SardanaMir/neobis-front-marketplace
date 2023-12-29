@@ -1,14 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
-//запрос в бек, чтобы загрузить к себе продукты
-// export const fetchItems = createAsyncThunk(
-//     'products/fetchProductsStatus',
-//     async (params) => {
-//         const { sortBy, order, category, search, currentPage } = params;
-//         const {data} = await axios.get(`https://64c688f80a25021fde91bd95.mockapi.io/pizza?page=${currentPage}&limit=4${category}&sortBy=${sortBy}&order=${order}&${search}`)    
-//         return data    
-//     }
-// )
 
 const initialState={
   items: []
@@ -28,15 +18,16 @@ const productsSlice = createSlice({
         productToUpdate.price = newPrice;
       }
     },
-
+    updateLikeStatus: (state, action) =>{
+      const {id, likeStatus} = action.payload;
+      const productToUpdate = state.items.find((product) => product.id === id);
+      if (productToUpdate) {
+        productToUpdate.likeStatus = likeStatus;
+      }
+    }
   },
-//   extraReducers: (builder) => {
-//     builder.addCase(fetchItems.fulfilled, (state, action) => {
-//       state.items = action.payload
-//     })
-// },
 });
 
-export const { addProducts, updateProduct } = productsSlice.actions;
+export const { addProducts, updateProduct, updateLikeStatus } = productsSlice.actions;
 export default productsSlice.reducer;
 export const selectProducts = (state) => state.products.items;

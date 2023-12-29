@@ -10,7 +10,6 @@ function AddItemForm({setisModalOpen, isModalOpen}){
     const imgRef = useRef(null);
 
     const onSubmit = async (value) =>{
-        console.log(selectedFile)
         const formData = new FormData();
         formData.append('product_image', selectedFile[0]);
         formData.append('price', value.price);
@@ -18,15 +17,13 @@ function AddItemForm({setisModalOpen, isModalOpen}){
         formData.append('short_description', value.short_description);
         formData.append('description', value.description);
         try{
-            const response = await addNewItem(formData)
-            console.log(response)
+            await addNewItem(formData)
             setSuccess(true);
             setisModalOpen(false);
             toast.success('Товар добавлен');
         }catch(err){
             setSuccess(true);
             toast.error(err.message);
-            console.log(err);
         }
     }
 
@@ -46,7 +43,6 @@ function AddItemForm({setisModalOpen, isModalOpen}){
 
     const handleChange = (event) =>{
         const files = Array.from(event.target.files);
-        console.log(files)
         setSelectedFile(files);
     }
 
@@ -89,7 +85,7 @@ function AddItemForm({setisModalOpen, isModalOpen}){
                         />
                         <div className="selected-images">
                             {selectedFile.map((file, index) => (
-                                <img key={index} src={URL.createObjectURL(file)} alt="selected" className='w-20	h-24 rounded-xl ml-1.5'/>
+                                <img key={index} src={URL.createObjectURL(file)} alt="selected" className='w-full h-24 rounded-xl ml-1.5'/>
                             ))}
                         </div>
                     </div>
@@ -119,6 +115,7 @@ function AddItemForm({setisModalOpen, isModalOpen}){
                     id="shortDescrItem" 
                     placeholder="Краткое описание" 
                     className='max-w-full	h-11 border-b bg-gray-100 rounded-lg focus:outline-none pl-2 mt-1' 
+                    maxLength={100}
                     required/>
                     <input 
                     type="text" 

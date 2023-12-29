@@ -4,7 +4,8 @@ import ShowCardItem from '../components/ShowCardItem';
 import MainScreenHeader from '../components/MainScreenHeader';
 import ItemBlock from '../components/ItemBlock';
 import {addProducts} from '../redux/slices/productsSlice';
-import {allProducts} from '../api';
+import {likedProductsList} from '../redux/slices/myProductsSlice';
+import {allProducts, myFavoriteProducts} from '../api';
 
 function MainScreen() {
   const [isModalOpen, setisModalOpen] = useState(false);
@@ -14,11 +15,27 @@ function MainScreen() {
 
   useEffect(() => {
     const uploadAllProducts = async () => {
-      const response = await allProducts();
-      dispatch(addProducts(response));
+      const allProd = await allProducts();
+      const likeProd = await myFavoriteProducts();
+      const updatedAllProd = allProd.map(item => {
+        const matchFound = likeProd.some(secondItem => secondItem.id === item.id);
+        return { ...item, likeStatus: matchFound };
+      }); 
+      dispatch(addProducts(updatedAllProd));
     }
     uploadAllProducts();
   }, []);
+
+  useEffect(() => {
+    const likedProductList = async () => {
+      const products = await myFavoriteProducts();
+      let productsWithLikeStatus = products.map(product => {
+        return { ...product, likeStatus: true };
+      });
+      dispatch(likedProductsList(productsWithLikeStatus))
+    }
+    likedProductList();
+  }, []); 
 
   return (
     <>

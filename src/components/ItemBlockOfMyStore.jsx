@@ -1,6 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import ChangeItemInfoForm from './ChangeItemInfoForm';
 import {deleteItem} from '../api';
 import { removeItem } from '../redux/slices/myProductsSlice';
@@ -12,15 +11,11 @@ function ItemBlockOfMyStore({item, index, setProductCard, setisModalOpen}){
     const [product, setProduct] = useState();
     const [selectedProduct, setSelectedProduct] = useState(false);
     const actionRef = useRef()
-
     const dispatch = useDispatch();
 
     const handleClick = (e) => {
       setPopupPosition({ x: e.clientX, y: e.clientY });
       setPopupVisible(!popupVisible);
-    };
-    const handleClose = () => {
-      setPopupVisible(false);
     };
 
     const handleChangeItemInfo = (data) =>{
@@ -31,11 +26,8 @@ function ItemBlockOfMyStore({item, index, setProductCard, setisModalOpen}){
     }
 
     const handleDeleteItem = async (item) =>{
+        await deleteItem(item.id);
         setPopupVisible(false);
-        //получаем данные товара и отправляем на endpoint на удаление
-        // setChangeProductInfo(true);
-        const response = await deleteItem(item.id)
-        console.log(response)
         dispatch(removeItem(item.id))
     }
     //закрытие popup при нажатии на другую область окна

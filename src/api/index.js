@@ -88,3 +88,18 @@ export const changeProductInfo = async (id, data) =>{
   const res = await API.patch(`products/${id}/`, data)
   return res.data
 }
+
+export const likeProduct = async (id) =>{
+  const res = await API.post(`products/${id}/like/`)
+  return res.data
+}
+
+export const unlikeProduct = async (id) =>{
+  const res = await API.post(`products/${id}/unlike/`)
+  return res.data
+}
+
+export const myFavoriteProducts = async (id) =>{
+  const res = await API.get(`products/liked/`)
+  return res.data
+}
