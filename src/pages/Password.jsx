@@ -7,6 +7,11 @@ import { useFormik } from 'formik';
 import { basicSchema } from '../schema';
 import { useNavigate } from 'react-router-dom';
 import {register} from '../api';
+import lock from '../assets/icons/lock.svg'
+import backgroundImg from '../assets/img/bg.jpg'
+import arrowLeft from '../assets/icons/arrow-left.svg'
+import eyeBlue from '../assets/icons/eye_blue.svg'
+import eyeDisable from '../assets/icons/eye-disable.svg'
 
 function Password() {
   const passwordRef = useRef();
@@ -63,7 +68,7 @@ function Password() {
 
   return (
     <section className='grid grid-rows-1 grid-cols-[2fr_310px_3fr_60px]'>
-      <img className='max-h-screen' src='src/assets/img/bg.jpg' alt="фоновый рисунок" />
+      <img className='max-h-screen' src={backgroundImg} alt="фоновый рисунок" />
       {
         success &&
         <ToastContainer
@@ -98,7 +103,7 @@ function Password() {
       <div className='col-start-2 pt-2.5 pl-6'>
         <div className='flex'>
           <Link to='/register' className='w-11 h-7 bg-gray-300 rounded-3xl flex justify-center cursor-pointer'>
-            <img src="src/assets/icons/arrow-left.svg" alt="arrow-left" />
+            <img src={arrowLeft} alt="arrow-left" />
           </Link>
           <p className='text-base	font-normal ml-3'>Назад</p>
         </div>
@@ -110,7 +115,7 @@ function Password() {
 
         <div className='w-80 flex flex-col items-center mx-auto my-0 mt-14 gap-y-7'>
           <div className='w-20 h-20 bg-indigo-600 rounded-2xl	flex items-center	justify-center'>
-            <img src="src/assets/icons/lock.svg" alt="lock" />
+            <img src={lock} alt="lock" />
           </div>
 
           <div>
@@ -152,8 +157,8 @@ function Password() {
       </div>
 
       <div className='w-11 h-7 bg-gray-300 rounded-3xl flex justify-center cursor-pointer' onClick={togglePasswordVisibility} >
-        <img className="" 
-        src={passwordVisible ? "src/assets/icons/eye_blue.svg" : "src/assets/icons/eye-disable.svg"} 
+        <img 
+        src={passwordVisible ? eyeBlue : {eyeDisable}} 
         alt="passwordVisible" />
       </div>
     </section>

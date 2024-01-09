@@ -6,7 +6,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {login} from '../api';
 import { useFormik } from 'formik';
-
+import backgroundImg from '../assets/img/bg.jpg'
+import eyeBlue from '../assets/icons/eye_blue.svg'
+import eyeSlash from '../assets/icons/eye_slash.svg'
 
 function Login() {
   const userRef = useRef();
@@ -61,7 +63,7 @@ function Login() {
 
   return (
     <section className='flex max-h-screen items-center'>
-      <img className='max-h-screen' src='src/assets/img/bg.jpg' alt="фоновый рисунок" />
+      <img className='max-h-screen' src={backgroundImg} alt="фоновый рисунок" />
       <div className='block mx-auto my-0 pt-2'>
         {
         requestError &&
@@ -103,7 +105,7 @@ function Login() {
           placeholder='Пароль' 
           required/>
           <img onClick={togglePasswordVisibility} className="absolute p-4 top-12 right-0" 
-          src={passwordVisible ? "src/assets/icons/eye_blue.svg" : "src/assets/icons/eye_slash.svg"} 
+          src={passwordVisible ? eyeBlue : eyeSlash} 
           alt="passwordVisible" />
         </div>
         <button type='submit' className='loginBtn w-80 h-11 bg-indigo-600	text-white rounded-full flex justify-center	items-center mt-20' 

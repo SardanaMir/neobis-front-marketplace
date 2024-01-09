@@ -7,6 +7,7 @@ import BackToMain from '../components/BackToMain';
 import AddPhoneNumber from '../components/AddPhoneNumber'
 import { changeProfileInfo } from '../api';
 import { setUser } from '../redux/slices/userSlice';
+import user from '../assets/icons/user.svg'
 
 function Profile() {
     const [isModalOpen, setisModalOpen] = useState(false);
@@ -72,7 +73,7 @@ function Profile() {
                     <h2 className='text-lg font-bold text-center'>Личный кабинет</h2>
                     <div className='flex flex-col items-center'>
                         <div className='w-16 h-16 flex bg-indigo-600 rounded-full justify-center items-center mt-12'>
-                            <img src="src/assets/icons/user.svg" alt="user photo" />
+                            <img src={user} alt="user photo" />
                         </div>
                         <p className='text-base font-semibold text-indigo-600'>Выбрать фотографию</p>
                     </div>

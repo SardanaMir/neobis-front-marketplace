@@ -1,7 +1,8 @@
-import { useState } from 'react';
 import { likeProduct, unlikeProduct, myFavoriteProducts } from '../api';
 import { useSelector, useDispatch } from 'react-redux';
 import {updateLikeStatus} from '../redux/slices/productsSlice';
+import redHeart from '../assets/icons/heart-red.svg'
+import whiteHeart from '../assets/icons/heart-white.svg'
 
 function ItemBlock({item, index, setProductCard, setisModalOpen}){
     const faveProducts = useSelector(state => state.myProducts.likedItems);
@@ -25,7 +26,7 @@ function ItemBlock({item, index, setProductCard, setisModalOpen}){
                 <p className='text-sm font-semibold'>{item.title}</p>
                 <p className='text-sm text-indigo-600 font-semibold'>{item.price}<span>$</span></p>
                 <div className='flex items-center'>
-                    <img onClick={() => likeHandle(item.id, item.likeStatus)} src={item.likeStatus ? "src/assets/icons/heart-red.svg" : "src/assets/icons/heart-white.svg"}/>
+                    <img onClick={() => likeHandle(item.id, item.likeStatus)} src={item.likeStatus ? redHeart : whiteHeart}/>
                     <p className='text-xs text-gray-300'>{item.likes_count}</p>
                 </div>
             </div>

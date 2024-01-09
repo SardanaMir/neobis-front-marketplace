@@ -6,6 +6,8 @@ import { setUser } from '../redux/slices/userSlice';
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import { basicSchema } from '../schema';
+import backgroundImg from '../assets/img/bg.jpg'
+import arrowLeft from '../assets/icons/arrow-left.svg'
 
 function Register() {
   const [errMsg, setErrMsg] = useState('');
@@ -41,11 +43,11 @@ function Register() {
 
   return (
     <section className='grid grid-rows-1 grid-cols-[2fr_310px_3fr]'>
-      <img className='max-h-screen' src='src/assets/img/bg.jpg' alt="фоновый рисунок" />
+      <img className='max-h-screen' src={backgroundImg} alt="фоновый рисунок" />
       <div className='col-start-2 pt-2.5 pl-6'>
         <div className='flex'>
           <Link to='/login' className='w-11 h-7 bg-gray-300 rounded-3xl flex justify-center cursor-pointer'>
-            <img src="src/assets/icons/arrow-left.svg" alt="arrow-left" />
+            <img src={arrowLeft} alt="arrow-left" />
           </Link>
           <p className='text-base	font-normal ml-3'>Назад</p>
         </div>

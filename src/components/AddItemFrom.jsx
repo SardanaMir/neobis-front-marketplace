@@ -2,7 +2,9 @@ import { useState, useRef} from 'react';
 import { useFormik } from 'formik';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import close from '../assets/icons/close.svg'
 import {addNewItem} from '../api/addNewItem';
+import addPhoto from '../assets/img/addImg.png'
 
 function AddItemForm({setisModalOpen, isModalOpen}){
     const [success, setSuccess] = useState(false);
@@ -65,11 +67,11 @@ function AddItemForm({setisModalOpen, isModalOpen}){
         }
         <div className={isModalOpen ? 'fixed w-full	h-full left-0 top-0 bg-black bg-opacity-50 ' : 'hidden'}>
             <div className='w-96 min-h-fit bg-white p-5 rounded-3xl flex flex-col top-2/4 left-2/4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
-                <img onClick={() => setisModalOpen(false)}  className="absolute top-3 right-3 cursor-pointer" src="src/assets/icons/close.svg" alt="close" />
+                <img onClick={() => setisModalOpen(false)}  className="absolute top-3 right-3 cursor-pointer" src={close} alt="close" />
                 <form onSubmit={formik.handleSubmit} className="flex flex-col">
                     <div className='flex'>
                         <label onClick={handleClick}>
-                            <img src="src/assets/img/addImg.png" className='cursor-pointer' alt="add photo" />
+                            <img src={addPhoto} className='cursor-pointer' alt="add photo" />
                         </label>
                         <input
                             ref={imgRef}

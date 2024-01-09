@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import {updateProduct} from '../redux/slices/myProductsSlice';
 import {changeProductInfo} from '../api';
+import close from '../assets/icons/close.svg'
 
 const ChangeItemInfoForm = ({setIsOpen, isOpen, product}) => {
   const [products, setProducts] = useState();
@@ -41,7 +42,7 @@ const ChangeItemInfoForm = ({setIsOpen, isOpen, product}) => {
   return (
     <div className={isOpen ? 'fixed w-full h-full left-0 top-0 bg-black bg-opacity-50' : 'hidden'}>
         <div className='w-96 min-h-fit bg-white p-7 rounded-3xl flex flex-col top-2/4 left-2/4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
-            <img onClick={() => setIsOpen(false)}  className="absolute top-3 right-3 cursor-pointer" src="src/assets/icons/close.svg" alt="close" />
+            <img onClick={() => setIsOpen(false)}  className="absolute top-3 right-3 cursor-pointer" src={close} alt="close" />
 
             <form 
             onSubmit={handleSaveChanges} 

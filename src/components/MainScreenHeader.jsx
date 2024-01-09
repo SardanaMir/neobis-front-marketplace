@@ -4,6 +4,8 @@ import React, {useEffect, useState, useRef} from 'react';
 import AddItemForm from './AddItemFrom';
 import { profileInfo } from '../api';
 import { setUser } from '../redux/slices/userSlice';
+import user from '../assets/icons/user.svg'
+import logo from '../assets/img/logo.png'
 
 function MainScreenHeader(){
     const [isModalOpen, setisModalOpen] = useState(false);
@@ -49,18 +51,18 @@ function MainScreenHeader(){
     return (    
         <header className="grid grid-cols-2">
             <div className="flex items-center gap-2.5">
-                <img src="src/assets/img/logo.png" alt="" />
+                <img src={logo} alt="logo" />
                 <h2 className="text-xl font-semibold">MOBI MARKET</h2>
             </div>
             <div ref={actionRef} className="flex items-center gap-5 justify-end">
-                <button onClick={() => setisModalOpen(true)} className='w-80 h-11 bg-indigo-600 text-white rounded-2xl focus:outline-none'>Подать заявление</button>
+                <button onClick={() => setisModalOpen(true)} className='w-80 h-11 bg-indigo-600 text-white rounded-2xl focus:outline-none'>Подать объявление</button>
                 <div  onClick={()=>setOpen(!open)} className='flex gap-x-3 items-center cursor-pointer'>
                     <div>
                         <p className='text-lg font-semibold'>{first_name}</p>
                         <p className='text-lg font-normal'>{username}</p>
                     </div>
                     <div className='w-16 h-16 flex bg-indigo-600 rounded-full justify-center items-center relative'>
-                        <img src="src/assets/icons/user.svg" alt="user" />
+                        <img src={user} alt="user" />
                     </div>
                 </div>
             </div>
