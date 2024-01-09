@@ -5,7 +5,8 @@ import {deleteItem} from '../api';
 import { removeItem } from '../redux/slices/myProductsSlice';
 import extraBtn from '../assets/icons/extra-button.svg'
 import whiteHeart from '../assets/icons/heart-white.svg'
-
+import deleteProduct from '../assets/icons/delete.svg'
+import changeItem from '../assets/icons/change.svg'
 function ItemBlockOfMyStore({item, index, setProductCard, setisModalOpen}){
     const [isOpen, setIsOpen] = useState(false);
     const [popupVisible, setPopupVisible] = useState(false);
@@ -72,11 +73,11 @@ function ItemBlockOfMyStore({item, index, setProductCard, setisModalOpen}){
                 borderRadius:'20px'
               }}>
                 <div onClick={()=>(handleChangeItemInfo(item), setIsOpen(true))} className='flex gap-3 items-center'>
-                    <img src="src/assets/icons/change.svg" alt="change button" />
+                    <img src={changeItem} alt="change button" />
                     <p className='text-sm text-indigo-600 font-semibold cursor-pointer'>Изменить</p>
                 </div>
                 <div onClick={()=>handleDeleteItem(item)} className='flex gap-3 items-center mt-3'>
-                    <img src="src/assets/icons/delete.svg" alt="delete button" />
+                    <img src={deleteProduct} alt="delete button" />
                     <p className='text-sm text-indigo-600 font-semibold cursor-pointer'>Удалить</p>
                 </div>
             </div>

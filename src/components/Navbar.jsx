@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {removeUser} from '../redux/slices/userSlice'
 import rightArrow from '../assets/icons/direction-right.svg'
-import logout from '../assets/icons/logout-1.svg'
+import logout from '../assets/icons/logout.svg'
 import user from '../assets/icons/user.svg'
 import heart from '../assets/icons/heart.svg'
 import store from '../assets/icons/store.svg'

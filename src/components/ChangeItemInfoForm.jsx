@@ -18,7 +18,7 @@ const ChangeItemInfoForm = ({setIsOpen, isOpen, product}) => {
 
   const handleSaveChanges = async (e) => {
     e.preventDefault();
-    setProducts(mystore.map(product => (product.id === editingProduct.id ? editingProduct : product)));
+    // setProducts(mystore.map(product => (product.id === editingProduct.id ? editingProduct : product)));
     setIsOpen(false)
     const newPrice = editingProduct.price;
     const newTitle = editingProduct.title;
